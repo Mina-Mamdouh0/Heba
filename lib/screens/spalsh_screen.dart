@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:haba/constant.dart';
 import 'package:haba/screens/Layout_screen.dart';
 
@@ -41,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
-              child: Image.asset('${Constant.imagePath}logo.png',fit: BoxFit.fill),
+              child:SvgPicture.asset('${Constant.imagePath}logoo.svg',fit: BoxFit.fill) ,
             ),
           ),
         ),

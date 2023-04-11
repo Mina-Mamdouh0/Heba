@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:haba/constant.dart';
 import 'package:haba/shared/defult_text.dart';
 
-
 class FormPageView extends StatefulWidget {
   @override
   _FormPageViewState createState() => _FormPageViewState();
@@ -24,6 +23,7 @@ class _FormPageViewState extends State<FormPageView> {
     'Item 4',
     'Item 5',
   ];
+  bool _isChecked = false;
 
   void _nextPage() {
     if (_formKey.currentState!.validate()) {
@@ -35,10 +35,6 @@ class _FormPageViewState extends State<FormPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Form Page View'),
-        backgroundColor: Constant.primaryColor,
-      ),
       body: Form(
           key: _formKey,
           child: Directionality(
@@ -47,7 +43,10 @@ class _FormPageViewState extends State<FormPageView> {
                 pageSnapping: true,
                 controller: page,
                 scrollDirection: Axis.horizontal,
-                children: [ _buildLastNameStep(),_buildFirstNameStep(),]),
+                children: [
+                  _buildLastNameStep(),
+                  _buildFirstNameStep(),
+                ]),
           )),
     );
   }
@@ -57,6 +56,8 @@ class _FormPageViewState extends State<FormPageView> {
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Image.asset('assets/images/pp.png'),
             const SizedBox(
@@ -87,12 +88,63 @@ class _FormPageViewState extends State<FormPageView> {
                   filled: true,
                   fillColor: Constant.grayColor,
                   contentPadding:
-                  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
               ),
             ),
+            Row(
+              children: [
+                Checkbox(
+                  value: _isChecked,
+                  onChanged: (value) {
+                    setState(() {
+                      _isChecked = value!;
+                    });
+                  },
+                  activeColor: Colors.green,
+                ),
+                Text("لا اريد عرض الاسم")
+              ],
+            ),
             const SizedBox(
-              height: AppSize.s15,
+              height: AppSize.s36,
+            ),
+            Row(
+              children: const [
+                Text(
+                  "طريقة التواصل",
+                  style: AppStyles.s18,
+                ),
+                Text(
+                  "*",
+                  style: AppStyles.s14r,
+                ),
+              ],
+            ),
+            Container(
+              width: 330,
+              height: 45,
+              color: Constant.grayColor,
+              child: DropdownButton(
+                  value: dropdownvalue,
+                  underline: Container(),
+                  icon: null,
+                  isExpanded: true,
+                  items: items.map((String items) {
+                    return DropdownMenuItem(
+                      value: items,
+                      child: Text(items),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropdownvalue = newValue!;
+                    });
+                  },
+                  alignment: Alignment.centerLeft),
+            ),
+            const SizedBox(
+              height: AppSize.s36,
             ),
             Row(
               children: const [
@@ -119,7 +171,7 @@ class _FormPageViewState extends State<FormPageView> {
                   filled: true,
                   fillColor: Constant.grayColor,
                   contentPadding:
-                  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
               ),
             ),
@@ -129,7 +181,7 @@ class _FormPageViewState extends State<FormPageView> {
             Row(
               children: const [
                 Text(
-                  "البريد الاكلتروني",
+                  "البريد الالكتروني",
                   style: AppStyles.s18,
                 ),
                 Text(
@@ -151,7 +203,7 @@ class _FormPageViewState extends State<FormPageView> {
                   filled: true,
                   fillColor: Constant.grayColor,
                   contentPadding:
-                  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
               ),
             ),
@@ -199,9 +251,10 @@ class _FormPageViewState extends State<FormPageView> {
                     ),
                   ],
                 ),
-                SizedBox(width: 30,),
+                SizedBox(
+                  width: 30,
+                ),
                 Column(
-
                   children: [
                     Row(
                       children: const [
@@ -244,22 +297,59 @@ class _FormPageViewState extends State<FormPageView> {
             const SizedBox(
               height: AppSize.s15,
             ),
-            ElevatedButton(
-              onPressed: () {
+            Row(
+              children: const [
+                Text(
+                  "العنوان",
+                  style: AppStyles.s18,
+                ),
+                Text(
+                  "*",
+                  style: AppStyles.s14r,
+                ),
+              ],
+            ),
+            SizedBox(
+              width: 330,
+              height: 45,
+              child: TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) return 'Please enter your first name';
+                },
+                decoration: InputDecoration(
+                  hintText: 'رقم البناء-اسم الشارع',
+                  border: InputBorder.none,
+                  filled: true,
+                  fillColor: Constant.grayColor,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: AppSize.s15,
+            ),
+            InkWell(
+              onTap: () {
                 if (_formKey.currentState!.validate()) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Form submitted')),
                   );
                 }
               },
-              child: Text('Submit'),
-              style:ElevatedButton.styleFrom(
-                primary: Constant.primaryColor,
-                onPrimary: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-
+              child: Container(
+                width: 300.0,
+                height: 45.0,
+                decoration: BoxDecoration(
+                  color: Constant.greenColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Center(
+                    child: Text(
+                  'Submit',
+                  style: TextStyle(color: Colors.white, fontSize: 17.0),
+                )),
               ),
-
             ),
           ],
         ),
@@ -268,7 +358,6 @@ class _FormPageViewState extends State<FormPageView> {
   }
 
   Widget _buildLastNameStep() {
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
@@ -338,7 +427,7 @@ class _FormPageViewState extends State<FormPageView> {
                   filled: true,
                   fillColor: Constant.grayColor,
                   contentPadding:
-                  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
               ),
             ),
@@ -349,6 +438,43 @@ class _FormPageViewState extends State<FormPageView> {
               children: const [
                 Text(
                   "القسم",
+                  style: AppStyles.s18,
+                ),
+                Text(
+                  "*",
+                  style: AppStyles.s14r,
+                ),
+              ],
+            ),
+            Container(
+              width: 330,
+              height: 45,
+              color: Constant.grayColor,
+              child: DropdownButton(
+                  value: dropdownvalue,
+                  underline: Container(),
+                  icon: null,
+                  isExpanded: true,
+                  items: items.map((String items) {
+                    return DropdownMenuItem(
+                      value: items,
+                      child: Text(items),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropdownvalue = newValue!;
+                    });
+                  },
+                  alignment: Alignment.centerLeft),
+            ),
+            const SizedBox(
+              height: AppSize.s15,
+            ),
+            Row(
+              children: const [
+                Text(
+                  "متاح لغاية",
                   style: AppStyles.s18,
                 ),
                 Text(
@@ -405,7 +531,7 @@ class _FormPageViewState extends State<FormPageView> {
                   filled: true,
                   fillColor: Constant.grayColor,
                   contentPadding:
-                  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
                 validator: (value) {
                   if (value!.isEmpty) return 'Please enter your first name';
@@ -416,16 +542,23 @@ class _FormPageViewState extends State<FormPageView> {
             const SizedBox(
               height: AppSize.s15,
             ),
-            ElevatedButton(
-              onPressed: _nextPage,
-              child: Text('Next'),
-              style:ElevatedButton.styleFrom(
-                primary: Constant.primaryColor,
-                onPrimary: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-
+            InkWell(
+              onTap: _nextPage,
+              child: Container(
+                width: 300.0,
+                height: 45.0,
+                decoration: BoxDecoration(
+                  color: Constant.greenColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Center(
+                    child: Text(
+                      'Next',
+                      style: TextStyle(color: Colors.white, fontSize: 17.0),
+                    )),
               ),
             ),
+
           ],
         ),
       ),

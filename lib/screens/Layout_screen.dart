@@ -5,6 +5,7 @@ import 'package:haba/constant.dart';
 import 'package:haba/screens/add_screen.dart';
 import 'package:haba/screens/donation_screen.dart';
 import 'package:haba/screens/home_screen.dart';
+import 'package:haba/shared/drawer_two.dart';
 import 'package:haba/shared/drawer_widget.dart';
 
 class LayoutScreen extends StatefulWidget {
@@ -26,16 +27,26 @@ List<Widget> listScreen=[
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Constant.greenColor,
+        actions: <Widget>[
+          Builder(
+            builder: (context){
+              return IconButton(
+                icon: Icon(Icons.filter_list_sharp),
+                onPressed: (){
+                  Scaffold.of(context).openEndDrawer();
+                },
+              );
+            },
+          )
+        ],
+      ),
+
       key: _scaffoldKey,
       drawer: const DrawerWidget(),
+       endDrawer: const DrawerWidget2(),
        body: listScreen[currentIndex],
-       floatingActionButton: FloatingActionButton(
-         onPressed: (){
-           _scaffoldKey.currentState!.openDrawer();
-         },
-         backgroundColor: Constant.greenColor,
-         child: const Icon(FontAwesomeIcons.add ,),
-       ),
        floatingActionButtonLocation:FloatingActionButtonLocation.centerDocked ,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int value){
@@ -53,10 +64,9 @@ List<Widget> listScreen=[
         type: BottomNavigationBarType.fixed,
         items:const [
           BottomNavigationBarItem(icon:Icon( FontAwesomeIcons.houseMedical,),label: 'Home'),
-          BottomNavigationBarItem(icon:Icon( FontAwesomeIcons.handPointer,),label: 'Donation'),
+          BottomNavigationBarItem(icon:Icon( FontAwesomeIcons.circleDollarToSlot,),label: 'Donation'),
         ],
       ),
-
     );
   }
 }

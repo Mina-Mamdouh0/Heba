@@ -15,8 +15,13 @@ class MyApp extends StatelessWidget {
       title: 'Haba',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+
       ),
-      home: const SplashScreen(),
+      home:  const Directionality(
+          textDirection: TextDirection.rtl, // set this property
+          child: SplashScreen()),
+      // set textDirection to right-to-left
+
     );
   }
 }

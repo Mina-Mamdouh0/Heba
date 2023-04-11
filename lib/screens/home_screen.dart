@@ -1,10 +1,112 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:haba/constant.dart';
 import 'package:haba/screens/details_item_screen.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+   HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool isGridView=true;
+  final List<Column> myProducts = <Column>[Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      Expanded(
+        child: ClipRRect(
+          borderRadius:const BorderRadius.only(
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
+          ),
+          child: Image.asset('${Constant.imagePath}cover.png',fit: BoxFit.fill),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical:2),
+        child: Text('Title',style: TextStyle(
+          color: Constant.blackColor,fontWeight: FontWeight.w700,fontSize: 18,
+        ),),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+        child: Text('Desc Desc DescDescDescDescDescDescDescDescDescDescDescDescDescDesc',
+          softWrap: true,overflow: TextOverflow.ellipsis,textAlign: TextAlign.justify,
+          style: TextStyle(
+            color: Constant.blackColor,fontWeight: FontWeight.w300,fontSize: 16,),),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(Icons.location_on_outlined,color: Constant.redColor,size: 16),
+            const SizedBox(width: 5,),
+            Text('Eygpt, ',
+              softWrap: true,overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Constant.blackColor,fontWeight: FontWeight.w300,fontSize: 16,),),
+          ],
+        ),
+      ),
+      const SizedBox(width: 5,),
+
+
+    ],
+  ),Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      Expanded(
+        child: ClipRRect(
+          borderRadius:const BorderRadius.only(
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
+          ),
+          child: Image.asset('${Constant.imagePath}cover.png',fit: BoxFit.fill),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical:2),
+        child: Text('Title',style: TextStyle(
+          color: Constant.blackColor,fontWeight: FontWeight.w700,fontSize: 18,
+        ),),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+        child: Text('Desc Desc DescDescDescDescDescDescDescDescDescDescDescDescDescDesc',
+          softWrap: true,overflow: TextOverflow.ellipsis,textAlign: TextAlign.justify,
+          style: TextStyle(
+            color: Constant.blackColor,fontWeight: FontWeight.w300,fontSize: 16,),),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(Icons.location_on_outlined,color: Constant.redColor,size: 16),
+            const SizedBox(width: 5,),
+            Text('Eygpt, ',
+              softWrap: true,overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Constant.blackColor,fontWeight: FontWeight.w300,fontSize: 16,),),
+          ],
+        ),
+      ),
+      const SizedBox(width: 5,),
+
+
+    ],
+  )];
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,165 +132,58 @@ class HomeScreen extends StatelessWidget {
                       )
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width*0.8,
-                      child: TextFormField(
-                        controller: TextEditingController(),
-                        decoration: InputDecoration(
-                          fillColor: Colors.white,
-                          filled: true,
-                          labelText: 'Search',
-                          prefixIcon: Icon(Icons.search,color: Constant.greenColor),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: Constant.blackColor,
-                            )
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(
-                                color: Constant.redColor,
-                              )
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.g_translate,color: Constant.redColor,),
-                          const SizedBox(width: 20,),
-                          Icon(Icons.search,color: Constant.redColor,),
-                        ],
-                      ),
-                    ),
-                  )
 
                 ],
               ),
             ),
-            const SizedBox(height: 10,),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  Expanded(child: DropdownButtonFormField(
-                      items: const [
-                        DropdownMenuItem(
-                          value: 'e',
-                          child: Text('Category'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'a',
-                          child: Text('Category'),
-                        ),
-                      ], onChanged: (val){},
-                      decoration:InputDecoration(
-                        label: const Text('Category'),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: Constant.blackColor,
-                            )
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: Constant.redColor,
-                            )
-                        ),
-                      ) ),),
-                  const SizedBox(width: 5,),
-                  Expanded(child: DropdownButtonFormField(
-                      items: const [
-                        DropdownMenuItem(
-                          value: 'e',
-                          child: Text('Category'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'a',
-                          child: Text('Category'),
-                        ),
-                      ], onChanged: (val){},
-                      decoration:InputDecoration(
-                        label: const Text('Category'),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: Constant.blackColor,
-                            )
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: Constant.redColor,
-                            )
-                        ),
-                      ) ),),
-                  const SizedBox(width: 5,),
-                  Expanded(child: DropdownButtonFormField(
-                      items: const [
-                        DropdownMenuItem(
-                          value: 'e',
-                          child: Text('Category'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'a',
-                          child: Text('Category'),
-                        ),
-                      ], onChanged: (val){},
-                      decoration:InputDecoration(
-                        label: const Text('Category'),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: Constant.blackColor,
-                            )
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(
-                              color: Constant.redColor,
-                            )
-                        ),
-                      ) ),),
+                  InkWell(
+                  onTap: (){
+                    setState(() {
+                      isGridView=true;
+                    });
+                  },
+                      child: SvgPicture.asset("assets/images/th.svg")),
+                  const SizedBox(
+                    width : 22.0,
+                  ),
+                  InkWell(
+                      onTap: (){
+                        setState(() {
+                          isGridView=false;
+                        });
+                      },
+                      child: SvgPicture.asset("assets/images/list.svg")),
                 ],
               ),
             ),
+
             const SizedBox(height: 10,),
-            GridView.builder(
+          isGridView ? GridView.builder(
               shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 20,
-                padding: const EdgeInsets.all(10),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 20,
+              padding: const EdgeInsets.all(10),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                   mainAxisExtent: 200
-                ),
-                itemBuilder: (context,index){
+              ),
+              itemBuilder: (context,index){
                 return InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsItemScreen()));
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: Constant.blackColor,
-                      )
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: Constant.blackColor,
+                        )
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -215,7 +210,7 @@ class HomeScreen extends StatelessWidget {
                           child: Text('Desc Desc DescDescDescDescDescDescDescDescDescDescDescDescDescDesc',
                             softWrap: true,overflow: TextOverflow.ellipsis,textAlign: TextAlign.justify,
                             style: TextStyle(
-                            color: Constant.blackColor,fontWeight: FontWeight.w300,fontSize: 16,),),
+                              color: Constant.blackColor,fontWeight: FontWeight.w300,fontSize: 16,),),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -228,7 +223,7 @@ class HomeScreen extends StatelessWidget {
                               Text('Eygpt, ',
                                 softWrap: true,overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                color: Constant.blackColor,fontWeight: FontWeight.w300,fontSize: 16,),),
+                                  color: Constant.blackColor,fontWeight: FontWeight.w300,fontSize: 16,),),
                             ],
                           ),
                         ),
@@ -239,7 +234,72 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 );
-                })
+              })
+              : ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+
+            itemCount: 20,
+            itemBuilder: (context, int index) {
+              return InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsItemScreen()));
+                },
+
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Constant.blackColor,
+                      )
+                  ),
+                  child: Column(
+                    children: [
+                  ClipRRect(
+                  borderRadius:const BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                  ),
+                  child: Image.asset('${Constant.imagePath}cover.png',fit: BoxFit.fill),
+                  ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical:2),
+                        child: Text('Title',style: TextStyle(
+                          color: Constant.blackColor,fontWeight: FontWeight.w700,fontSize: 18,
+                        ),),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Text('Desc Desc DescDescDescDescDescDescDescDescDescDescDescDescDescDesc',
+                          softWrap: true,overflow: TextOverflow.ellipsis,textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            color: Constant.blackColor,fontWeight: FontWeight.w300,fontSize: 16,),),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.location_on_outlined,color: Constant.redColor,size: 16),
+                            const SizedBox(width: 5,),
+                            Text('Eygpt, ',
+                              softWrap: true,overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Constant.blackColor,fontWeight: FontWeight.w300,fontSize: 16,),),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 5,)
+
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+
+
 
 
           ],
