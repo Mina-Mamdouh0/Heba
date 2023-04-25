@@ -3,8 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:haba/constant.dart';
-import 'package:haba/screens/call_us_screen.dart';
 import 'package:haba/screens/contact_us_screen.dart';
+
+import '../screens/avaliable_form.dart';
 
 class DrawerWidget2 extends StatelessWidget {
   const DrawerWidget2({Key? key}) : super(key: key);
@@ -109,7 +110,37 @@ class DrawerWidget2 extends StatelessWidget {
                   ),
 
                 ) ),
-            const SizedBox(height: 10,),
+            const SizedBox(height: 20,),
+
+            InkWell(
+              onTap: () {
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Form submitted')),
+                  );
+
+              },
+              child: InkWell(
+                onTap: (){
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AvailableFormScreen()));
+
+                },
+                child: Container(
+                  width: 300.0,
+                  height: 45.0,
+                  decoration: BoxDecoration(
+                    color: Constant.greenColor,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Center(
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(color: Colors.white, fontSize: 17.0),
+                      )),
+                ),
+              ),
+            ),
+
 
           ],
         ),

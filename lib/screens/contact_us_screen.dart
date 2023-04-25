@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:haba/constant.dart';
 
 class ContactUsScreen extends StatelessWidget {
@@ -107,6 +108,19 @@ Formal since the fifteenth century when an unknown printing press stacked a grou
                   ],
                 ),
               ),
+              const SizedBox(height: 20,),
+Row(
+  children: [
+    SvgPicture.asset('assets/images/icons8-facebook.svg',height: 70,width: 70) ,
+    SvgPicture.asset('assets/images/icons8-instagram.svg',height: 70,width: 70) ,
+    SvgPicture.asset('assets/images/icons8-snapchat.svg',height: 70,width: 75) ,
+    SvgPicture.asset('assets/images/icons8-tiktok.svg',height: 75,width: 70) ,
+    SvgPicture.asset('assets/images/icons8-youtube.svg',height: 70,width: 70) ,
+
+
+  ],
+)
+
 
 
             ],

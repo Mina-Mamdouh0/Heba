@@ -38,7 +38,7 @@ class _FormPageViewState extends State<FormPageView> {
       body: Form(
           key: _formKey,
           child: Directionality(
-            textDirection: TextDirection.ltr,
+            textDirection: TextDirection.rtl,
             child: PageView(
                 pageSnapping: true,
                 controller: page,
