@@ -14,9 +14,13 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.2
   font_awesome_flutter: ^10.4.0
-  flutter_svg: ^2.0.4
-
-
+  flutter_svg: ^1.1.6
+  http: ^0.13.5
+  cached_network_image: ^3.2.3
+  shared_preferences: ^2.0.15
+  easy_localization: ^3.0.1
+  url_launcher: ^6.1.10
+  flutter_phone_direct_caller: ^2.1.1
 
   cupertino_icons: ^1.0.2
 
@@ -32,6 +36,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/translations/
 
 
   # fonts:

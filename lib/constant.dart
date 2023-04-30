@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Constant{
   static String imagePath='assets/images/';
+  static String baseUrl='https://hibadonations.com';
 
   static Color greenColor=const Color(0XFF3DB54A);
   static Color redColor=const Color(0XFFEE4037);

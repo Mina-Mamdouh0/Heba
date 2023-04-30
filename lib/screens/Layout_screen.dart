@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:haba/constant.dart';
@@ -7,6 +8,7 @@ import 'package:haba/screens/donation_screen.dart';
 import 'package:haba/screens/home_screen.dart';
 import 'package:haba/shared/drawer_two.dart';
 import 'package:haba/shared/drawer_widget.dart';
+import 'package:haba/translations/locale_keys.g.dart';
 
 class LayoutScreen extends StatefulWidget {
   const LayoutScreen({Key? key}) : super(key: key);
@@ -45,7 +47,7 @@ List<Widget> listScreen=[
 
       key: _scaffoldKey,
       drawer: const DrawerWidget(),
-       endDrawer: const DrawerWidget2(),
+       endDrawer: DrawerWidget2(),
        body: listScreen[currentIndex],
        floatingActionButtonLocation:FloatingActionButtonLocation.centerDocked ,
       bottomNavigationBar: BottomNavigationBar(
@@ -62,9 +64,10 @@ List<Widget> listScreen=[
         unselectedItemColor: Constant.blackColor,
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
-        items:const [
-          BottomNavigationBarItem(icon:Icon( FontAwesomeIcons.houseMedical,),label: 'Home'),
-          BottomNavigationBarItem(icon:Icon( FontAwesomeIcons.circleDollarToSlot,),label: 'Donation'),
+        items: [
+          BottomNavigationBarItem(icon:const Icon( FontAwesomeIcons.houseMedical,),label: LocaleKeys.home.tr()),
+
+          BottomNavigationBarItem(icon:const Icon( FontAwesomeIcons.circleDollarToSlot,),label: LocaleKeys.donation.tr()),
         ],
       ),
     );

@@ -1,12 +1,14 @@
 import 'dart:core';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:haba/constant.dart';
 import 'package:haba/shared/defult_text.dart';
+import 'package:haba/translations/locale_keys.g.dart';
 
 class FormPageView extends StatefulWidget {
   @override
-  _FormPageViewState createState() => _FormPageViewState();
+   _FormPageViewState createState() => _FormPageViewState();
 }
 
 class _FormPageViewState extends State<FormPageView> {
@@ -28,7 +30,7 @@ class _FormPageViewState extends State<FormPageView> {
   void _nextPage() {
     if (_formKey.currentState!.validate()) {
       page.animateToPage(++pageIndex,
-          duration: Duration(milliseconds: 400), curve: Curves.linearToEaseOut);
+          duration: const Duration(milliseconds: 400), curve: Curves.linearToEaseOut);
     }
   }
 
@@ -37,17 +39,14 @@ class _FormPageViewState extends State<FormPageView> {
     return Scaffold(
       body: Form(
           key: _formKey,
-          child: Directionality(
-            textDirection: TextDirection.ltr,
-            child: PageView(
-                pageSnapping: true,
-                controller: page,
-                scrollDirection: Axis.horizontal,
-                children: [
-                  _buildLastNameStep(),
-                  _buildFirstNameStep(),
-                ]),
-          )),
+          child: PageView(
+              pageSnapping: true,
+              controller: page,
+              scrollDirection: Axis.horizontal,
+              children: [
+                _buildLastNameStep(),
+                _buildFirstNameStep(),
+              ])),
     );
   }
 
@@ -64,34 +63,29 @@ class _FormPageViewState extends State<FormPageView> {
               height: AppSize.s36,
             ),
             Row(
-              children: const [
-                Text(
-                  "اسم المتبرع",
+              children:  [
+                Text(LocaleKeys.nameDonor.tr(),
                   style: AppStyles.s18,
                 ),
-                Text(
+                const Text(
                   "*",
                   style: AppStyles.s14r,
                 ),
               ],
             ),
-            SizedBox(
-              width: 330,
-              height: 45,
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) return 'Please enter your first name';
-                },
-                decoration: InputDecoration(
-                  hintText: 'مثال قميص ازرق',
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: Constant.grayColor,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                ),
+            TextFormField(
+              validator: (value) {
+                if (value!.isEmpty) return LocaleKeys.pleaseEnterYourFirstName.tr();
+              },
+              decoration: InputDecoration(
+                hintText: LocaleKeys.exampleBlueShirt.tr(),
+                border: InputBorder.none,
+                filled: true,
+                fillColor: Constant.grayColor,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               ),
             ),
+
             Row(
               children: [
                 Checkbox(
@@ -103,108 +97,95 @@ class _FormPageViewState extends State<FormPageView> {
                   },
                   activeColor: Colors.green,
                 ),
-                Text("لا اريد عرض الاسم")
+                Text(LocaleKeys.wantDisplayName.tr())
               ],
             ),
             const SizedBox(
               height: AppSize.s36,
             ),
             Row(
-              children: const [
+              children:  [
                 Text(
-                  "طريقة التواصل",
+                  LocaleKeys.methodOfCommunication.tr(),
                   style: AppStyles.s18,
                 ),
-                Text(
+                const Text(
                   "*",
                   style: AppStyles.s14r,
                 ),
               ],
             ),
-            Container(
-              width: 330,
-              height: 45,
-              color: Constant.grayColor,
-              child: DropdownButton(
-                  value: dropdownvalue,
-                  underline: Container(),
-                  icon: null,
-                  isExpanded: true,
-                  items: items.map((String items) {
-                    return DropdownMenuItem(
-                      value: items,
-                      child: Text(items),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      dropdownvalue = newValue!;
-                    });
-                  },
-                  alignment: Alignment.centerLeft),
-            ),
-            const SizedBox(
-              height: AppSize.s36,
-            ),
-            Row(
-              children: const [
-                Text(
-                  "الهاتف",
-                  style: AppStyles.s18,
-                ),
-                Text(
-                  "*",
-                  style: AppStyles.s14r,
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 330,
-              height: 45,
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) return 'Please enter your first name';
+            DropdownButton(
+                value: dropdownvalue,
+                underline: Container(),
+                icon: null,
+                isExpanded: true,
+                items: items.map((String items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    child: Text(items),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownvalue = newValue!;
+                  });
                 },
-                decoration: InputDecoration(
-                  hintText: 'مثال قميص ازرق',
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: Constant.grayColor,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                alignment: Alignment.centerLeft),
+            const SizedBox(
+              height: AppSize.s36,
+            ),
+            Row(
+              children:  [
+                Text(
+                  LocaleKeys.phone.tr(),
+                  style: AppStyles.s18,
                 ),
+                const Text(
+                  "*",
+                  style: AppStyles.s14r,
+                ),
+              ],
+            ),
+            TextFormField(
+              validator: (value) {
+                if (value!.isEmpty) return LocaleKeys.pleaseEnterYourPhone.tr();
+              },
+              decoration: InputDecoration(
+                hintText: LocaleKeys.phone.tr(),
+                border: InputBorder.none,
+                filled: true,
+                fillColor: Constant.grayColor,
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               ),
             ),
             const SizedBox(
               height: AppSize.s15,
             ),
             Row(
-              children: const [
+              children: [
                 Text(
-                  "البريد الالكتروني",
+                  LocaleKeys.email.tr(),
                   style: AppStyles.s18,
                 ),
-                Text(
+                const Text(
                   "*",
                   style: AppStyles.s14r,
                 ),
               ],
             ),
-            SizedBox(
-              width: 330,
-              height: 45,
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) return 'Please enter your first name';
-                },
-                decoration: InputDecoration(
-                  hintText: 'مثال قميص ازرق',
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: Constant.grayColor,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                ),
+            TextFormField(
+              validator: (value) {
+                if (value!.isEmpty) return LocaleKeys.pleaseEnterYourEmail.tr();
+              },
+              decoration: InputDecoration(
+                hintText: LocaleKeys.email.tr(),
+                border: InputBorder.none,
+                filled: true,
+                fillColor: Constant.grayColor,
+                contentPadding:
+                   const  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               ),
             ),
             const SizedBox(
@@ -213,25 +194,22 @@ class _FormPageViewState extends State<FormPageView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Column(
-                  children: [
-                    Row(
-                      children: const [
-                        Text(
-                          "البلد",
-                          style: AppStyles.s18,
-                        ),
-                        Text(
-                          "*",
-                          style: AppStyles.s14r,
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: 150,
-                      height: 45,
-                      color: Constant.grayColor,
-                      child: DropdownButton(
+                Expanded(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            LocaleKeys.countries.tr(),
+                            style: AppStyles.s18,
+                          ),
+                          const Text(
+                            "*",
+                            style: AppStyles.s14r,
+                          ),
+                        ],
+                      ),
+                      DropdownButton(
                           value: dropdownvalue,
                           underline: Container(),
                           icon: null,
@@ -248,31 +226,28 @@ class _FormPageViewState extends State<FormPageView> {
                             });
                           },
                           alignment: Alignment.centerLeft),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 30,
                 ),
-                Column(
-                  children: [
-                    Row(
-                      children: const [
-                        Text(
-                          "المدينة",
-                          style: AppStyles.s18,
-                        ),
-                        Text(
-                          "*",
-                          style: AppStyles.s14r,
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: 150,
-                      height: 45,
-                      color: Constant.grayColor,
-                      child: DropdownButton(
+                Expanded(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            LocaleKeys.cities.tr(),
+                            style: AppStyles.s18,
+                          ),
+                          const Text(
+                            "*",
+                            style: AppStyles.s14r,
+                          ),
+                        ],
+                      ),
+                      DropdownButton(
                           value: dropdownvalue,
                           underline: Container(),
                           icon: null,
@@ -289,8 +264,8 @@ class _FormPageViewState extends State<FormPageView> {
                             });
                           },
                           alignment: Alignment.centerLeft),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -298,32 +273,28 @@ class _FormPageViewState extends State<FormPageView> {
               height: AppSize.s15,
             ),
             Row(
-              children: const [
+              children: [
                 Text(
-                  "العنوان",
+                  LocaleKeys.address.tr(),
                   style: AppStyles.s18,
                 ),
-                Text(
+                const Text(
                   "*",
                   style: AppStyles.s14r,
                 ),
               ],
             ),
-            SizedBox(
-              width: 330,
-              height: 45,
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) return 'Please enter your first name';
-                },
-                decoration: InputDecoration(
-                  hintText: 'رقم البناء-اسم الشارع',
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: Constant.grayColor,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                ),
+            TextFormField(
+              validator: (value) {
+                if (value!.isEmpty) return LocaleKeys.pleaseEnterYourAddress.tr();
+              },
+              decoration: InputDecoration(
+                hintText: LocaleKeys.buildingNumber.tr(),
+                border: InputBorder.none,
+                filled: true,
+                fillColor: Constant.grayColor,
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               ),
             ),
             const SizedBox(
@@ -332,9 +303,7 @@ class _FormPageViewState extends State<FormPageView> {
             InkWell(
               onTap: () {
                 if (_formKey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Form submitted')),
-                  );
+
                 }
               },
               child: Container(
@@ -344,10 +313,10 @@ class _FormPageViewState extends State<FormPageView> {
                   color: Constant.greenColor,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Center(
+                child:  Center(
                     child: Text(
-                  'Submit',
-                  style: TextStyle(color: Colors.white, fontSize: 17.0),
+                  LocaleKeys.submit.tr(),
+                  style: const TextStyle(color: Colors.white, fontSize: 17.0),
                 )),
               ),
             ),
@@ -368,143 +337,132 @@ class _FormPageViewState extends State<FormPageView> {
               height: AppSize.s36,
             ),
             Row(
-              children: const [
+              children: [
                 Text(
-                  "صورة الغرض",
+                  LocaleKeys.purposeImage.tr(),
                   style: AppStyles.s18,
                 ),
-                Text(
+                const Text(
                   "*",
                   style: AppStyles.s14r,
                 ),
               ],
             ),
-            Container(
-              width: 330,
-              height: 100,
-              color: Constant.grayColor,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    "اضف صورة",
-                    style: AppStyles.s24,
-                  ),
-                  SizedBox(
-                    width: AppSize.s25,
-                  ),
-                  Icon(
-                    Icons.add_a_photo,
-                  ),
-                ],
+            InkWell(
+              onTap: (){},
+              child: Container(
+                width: 330,
+                height: 100,
+                color: Constant.grayColor,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      LocaleKeys.addImage.tr(),
+                      style: AppStyles.s24,
+                    ),
+                    const SizedBox(
+                      width: AppSize.s25,
+                    ),
+                    const Icon(
+                      Icons.add_a_photo,
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(
               height: AppSize.s15,
             ),
             Row(
-              children: const [
+              children: [
                 Text(
-                  "اسم الغرض",
+                  LocaleKeys.nameImage.tr(),
                   style: AppStyles.s18,
                 ),
-                Text(
+                const Text(
                   "*",
                   style: AppStyles.s14r,
                 ),
               ],
             ),
-            SizedBox(
-              width: 330,
-              height: 45,
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) return 'Please enter your first name';
+            TextFormField(
+              validator: (value) {
+                if (value!.isEmpty) return LocaleKeys.pleaseEnterYourName.tr();
+              },
+              decoration: InputDecoration(
+                hintText: LocaleKeys.exampleBlueShirt.tr(),
+                border: InputBorder.none,
+                filled: true,
+                fillColor: Constant.grayColor,
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              ),
+            ),
+            const SizedBox(
+              height: AppSize.s15,
+            ),
+            Row(
+              children: [
+                Text(
+                  LocaleKeys.category.tr(),
+                  style: AppStyles.s18,
+                ),
+                const Text(
+                  "*",
+                  style: AppStyles.s14r,
+                ),
+              ],
+            ),
+            DropdownButton(
+                value: dropdownvalue,
+                underline: Container(),
+                icon: null,
+                isExpanded: true,
+                items: items.map((String items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    child: Text(items),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownvalue = newValue!;
+                  });
                 },
-                decoration: InputDecoration(
-                  hintText: 'مثال قميص ازرق',
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: Constant.grayColor,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                ),
-              ),
-            ),
+                alignment: Alignment.centerLeft),
             const SizedBox(
               height: AppSize.s15,
             ),
             Row(
-              children: const [
+              children: [
                 Text(
-                  "القسم",
+                  LocaleKeys.availableUpTo.tr(),
                   style: AppStyles.s18,
                 ),
-                Text(
+                const Text(
                   "*",
                   style: AppStyles.s14r,
                 ),
               ],
             ),
-            Container(
-              width: 330,
-              height: 45,
-              color: Constant.grayColor,
-              child: DropdownButton(
-                  value: dropdownvalue,
-                  underline: Container(),
-                  icon: null,
-                  isExpanded: true,
-                  items: items.map((String items) {
-                    return DropdownMenuItem(
-                      value: items,
-                      child: Text(items),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      dropdownvalue = newValue!;
-                    });
-                  },
-                  alignment: Alignment.centerLeft),
-            ),
-            const SizedBox(
-              height: AppSize.s15,
-            ),
-            Row(
-              children: const [
-                Text(
-                  "متاح لغاية",
-                  style: AppStyles.s18,
-                ),
-                Text(
-                  "*",
-                  style: AppStyles.s14r,
-                ),
-              ],
-            ),
-            Container(
-              width: 330,
-              height: 45,
-              color: Constant.grayColor,
-              child: DropdownButton(
-                  value: dropdownvalue,
-                  underline: Container(),
-                  icon: null,
-                  isExpanded: true,
-                  items: items.map((String items) {
-                    return DropdownMenuItem(
-                      value: items,
-                      child: Text(items),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      dropdownvalue = newValue!;
-                    });
-                  },
-                  alignment: Alignment.centerLeft),
-            ),
+            DropdownButton(
+                value: dropdownvalue,
+                underline: Container(),
+                icon: null,
+                isExpanded: true,
+                items: items.map((String items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    child: Text(items),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownvalue = newValue!;
+                  });
+                },
+                alignment: Alignment.centerLeft),
             const SizedBox(
               height: AppSize.s15,
             ),
@@ -520,24 +478,20 @@ class _FormPageViewState extends State<FormPageView> {
                 ),
               ],
             ),
-            Container(
-              width: 330,
-              height: 170,
-              color: Constant.grayColor,
-              child: TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'مثال قميص ازرق مقاس xl مصنوع من خامه...',
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: Constant.grayColor,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) return 'Please enter your first name';
-                  return null;
-                },
+            TextFormField(
+              maxLength: 6,
+              decoration: InputDecoration(
+                hintText: 'مثال قميص ازرق مقاس xl مصنوع من خامه...',
+                border: InputBorder.none,
+                filled: true,
+                fillColor: Constant.grayColor,
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               ),
+              validator: (value) {
+                if (value!.isEmpty) return 'Please enter your first name';
+                return null;
+              },
             ),
             const SizedBox(
               height: AppSize.s15,
@@ -558,7 +512,6 @@ class _FormPageViewState extends State<FormPageView> {
                     )),
               ),
             ),
-//jlkj
           ],
         ),
       ),
