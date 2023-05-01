@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../constant.dart';
 import '../shared/defult_text.dart';
+import '../translations/locale_keys.g.dart';
 
 class AvailableFormScreen extends StatelessWidget {
   const AvailableFormScreen({Key? key}) : super(key: key);
@@ -25,7 +27,7 @@ class AvailableFormScreen extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Text("يمكنك تعبئة الحقول أدناه ليصيلك إشعار فور توفر عناصر مشابهة.",style: TextStyle(
+              Text(LocaleKeys.youCanFill.tr(),style: TextStyle(
                 fontSize: 15,fontWeight: FontWeight.bold,
                 color: Constant.red
               ),),
@@ -34,9 +36,9 @@ class AvailableFormScreen extends StatelessWidget {
               ),
 
               Row(
-                children: const [
+                children:  [
                   Text(
-                    "الاسم",
+                    LocaleKeys.theName.tr(),
                     style: AppStyles.s18,
                   ),
                   Text(
@@ -50,10 +52,10 @@ class AvailableFormScreen extends StatelessWidget {
                 height: 45,
                 child: TextFormField(
                   validator: (value) {
-                    if (value!.isEmpty) return 'Please enter your first name';
+                    if (value!.isEmpty) return LocaleKeys.pleaseEnterName.tr();
                   },
                   decoration: InputDecoration(
-                    hintText: 'الاسم كامل',
+                    hintText: LocaleKeys.fullName.tr(),
                     border: InputBorder.none,
                     filled: true,
                     fillColor: Constant.grayColor,
@@ -66,9 +68,9 @@ class AvailableFormScreen extends StatelessWidget {
                 height: AppSize.s15,
               ),
               Row(
-                children: const [
+                children:  [
                   Text(
-                    "الهاتف",
+                    LocaleKeys.phone.tr(),
                     style: AppStyles.s18,
                   ),
                   Text(
@@ -82,7 +84,7 @@ class AvailableFormScreen extends StatelessWidget {
                 height: 45,
                 child: TextFormField(
                   validator: (value) {
-                    if (value!.isEmpty) return 'Please enter your first name';
+                    if (value!.isEmpty) return LocaleKeys.pleaseEnterPhone.tr();
                   },
                   decoration: InputDecoration(
                     hintText: '+9715XXXXXXXXX',
@@ -98,9 +100,9 @@ class AvailableFormScreen extends StatelessWidget {
                 height: AppSize.s15,
               ),
               Row(
-                children: const [
+                children:  [
                   Text(
-                    "البريد الالكتروني",
+                    LocaleKeys.email.tr(),
                     style: AppStyles.s18,
                   ),
                   Text(
@@ -114,7 +116,7 @@ class AvailableFormScreen extends StatelessWidget {
                 height: 45,
                 child: TextFormField(
                   validator: (value) {
-                    if (value!.isEmpty) return 'Please enter your first name';
+                    if (value!.isEmpty) return LocaleKeys.pleaseEnterEmail.tr();
                   },
                   decoration: InputDecoration(
                     hintText: 'email@email.com',

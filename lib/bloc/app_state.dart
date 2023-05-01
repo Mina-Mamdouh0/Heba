@@ -19,6 +19,9 @@ class LoadingGetCountries extends AppState{}
 class SuccessGetCountries extends AppState{}
 class ErrorGetCountries extends AppState{}
 
+class ChangeImageState extends AppState{}
+
+
 class LoadingGetCities extends AppState{}
 class SuccessGetCities extends AppState{}
 class ErrorGetCities extends AppState{}

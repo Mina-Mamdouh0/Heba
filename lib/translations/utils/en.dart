@@ -53,4 +53,14 @@ const Map<String, String> en = {
   'nameImage':'Purpose Name',
   'addImage':'Add image',
   'availableUpTo':'Available Up To',
+
+  //avalible Form
+  'youCanFill' : 'You can fill in the fields below to be notified as soon as similar items become available.',
+ ' "theName"' : 'The Name',
+  'pleaseEnterName' : 'Please enter your first name',
+  'fullName' : 'The full name',
+  'pleaseEnterPhone' : 'Please enter your phone number',
+  "num" : '+9715XXXXXXXXX',
+  "pleaseEnterEmail" : 'Please enter your email',
+  'emaill' : 'email@email.com',
 };

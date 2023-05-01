@@ -1,6 +1,7 @@
 
 
 import 'dart:convert';
+import 'dart:html';
 import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -98,6 +99,13 @@ class AppCubit extends Cubit<AppState> {
       print(error.toString());
       emit(ErrorGetCountries());
     });
+  }
+  File? file;
+  void changeImage(String imagePath){
+    file=File(imagePath);
+    if(file!=null){
+      emit(ChangeImageState());
+    }
   }
 
   List<CitiesModel> citiesList=[];
