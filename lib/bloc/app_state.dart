@@ -3,6 +3,7 @@ class AppInitialState extends AppState{}
 
 
 class ChangeLunApp extends AppState{}
+class ChangeImageState extends AppState{}
 
 class LoadingGetItemHome extends AppState{}
 class SuccessGetItemHome extends AppState{
@@ -18,9 +19,6 @@ class ErrorGetCategory extends AppState{}
 class LoadingGetCountries extends AppState{}
 class SuccessGetCountries extends AppState{}
 class ErrorGetCountries extends AppState{}
-
-class ChangeImageState extends AppState{}
-
 
 class LoadingGetCities extends AppState{}
 class SuccessGetCities extends AppState{}

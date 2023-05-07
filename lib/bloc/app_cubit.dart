@@ -1,7 +1,7 @@
 
 
 import 'dart:convert';
-import 'dart:html';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -27,6 +27,14 @@ class AppCubit extends Cubit<AppState> {
     emit(ChangeLunApp());
   }
 
+  File? file;
+  void changeImage(String imagePath){
+    file=File(imagePath);
+    if(file!=null){
+      emit(ChangeImageState());
+    }
+  }
+
   //get data in home
   List<ItemModel> itemList=[];
   void getDateHome({required String cityId,required String categoryId,required String countryId ,String? search})async{
@@ -35,7 +43,6 @@ class AppCubit extends Cubit<AppState> {
 
   SharedPreferences pref=await SharedPreferences.getInstance();
   String lun=pref.getString('Lung')??'';
-
    await Services.get(uri: Uri.parse('${Constant.baseUrl}/api?${search==null?'search=':'search=$search'}&country_id=$countryId&city_id=$cityId&category_id=$categoryId'),
       headers: {
     'Accept':'application/json',
@@ -46,7 +53,7 @@ class AppCubit extends Cubit<AppState> {
        itemList.add(ItemModel.jsonData(value['items'][i]));
      }
      print('done');
-     emit(SuccessGetItemHome(int.parse(value['items'].length)));
+     emit(SuccessGetItemHome(1));
   }).onError((error, stackTrace){
     print(error.toString());
     emit(ErrorGetItemHome());
@@ -99,13 +106,6 @@ class AppCubit extends Cubit<AppState> {
       print(error.toString());
       emit(ErrorGetCountries());
     });
-  }
-  File? file;
-  void changeImage(String imagePath){
-    file=File(imagePath);
-    if(file!=null){
-      emit(ChangeImageState());
-    }
   }
 
   List<CitiesModel> citiesList=[];
@@ -176,6 +176,29 @@ class AppCubit extends Cubit<AppState> {
       print(error.toString());
       emit(ErrorGetOurVision());
     });
+  }
+
+  void uploadDonation({required String name,required int showName ,
+  required int contactType,required String mobile,required String email,
+  required int categoryId,required int cityId,required String address,
+  required String title,required String description,required String validFor}){
+
+
+    var request = http.MultipartRequest('POST', Uri.parse('${Constant.baseUrl}/api/page/our-vision'));
+    request.files.add(http.MultipartFile.fromBytes('files', File(file!.path).readAsBytesSync(),filename: file!.path));
+
+    request.fields['donor_name'] = name;
+    request.fields['show_name'] = showName.toString();
+    request.fields['contact_type'] = contactType.toString();
+    request.fields['mobile'] = mobile;
+    request.fields['email'] = email;
+    request.fields['email'] = email;
+    request.fields['category_id'] = categoryId.toString();
+    request.fields['city_id'] = cityId.toString();
+    request.fields['address'] = address;
+    request.fields['title'] = title;
+    request.fields['description'] = description;
+    request.fields['valid_for'] = validFor.toString();
   }
 
 

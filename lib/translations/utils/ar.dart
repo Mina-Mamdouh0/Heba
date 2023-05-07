@@ -54,6 +54,7 @@ const Map<String, String> ar = {
   'addImage':'اضف صورة',
   'availableUpTo':'متاح لغاية',
 
+
 // avalible Form
   'youCanFill' : 'يمكنك تعبئة الحقول أدناه ليصيلك إشعار فور توفر عناصر مشابهة.',
   ' "theName"' : 'الاسم',
@@ -63,5 +64,10 @@ const Map<String, String> ar = {
   "num" : '+9715XXXXXXXXX',
   "pleaseEnterEmail" : 'Please enter your email',
   'emaill' : 'email@email.com',
+
+
+
+
+
 
 };
