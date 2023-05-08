@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:haba/bloc/app_cubit.dart';
 import 'package:haba/constant.dart';
+import 'package:haba/screens/otp_screen.dart';
 import 'package:haba/shared/defult_text.dart';
 import 'package:haba/translations/locale_keys.g.dart';
 import 'package:image_picker/image_picker.dart';
@@ -673,8 +674,9 @@ class _FormPageViewState extends State<FormPageView> {
       );
     }, listener: (context , state){
       if(state is SuccessFormDontion){
+        BlocProvider.of<AppCubit>(context).file=null;
         if(state.msg=='Please verify your contact'){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>Container()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpScreen(userId:state.userID)));
         }else{
           BlocProvider.of<AppCubit>(context).changeIndex(0);
         }

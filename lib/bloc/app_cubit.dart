@@ -237,6 +237,8 @@ class AppCubit extends Cubit<AppState> {
     var resed = await http.Response.fromStream(res);
     var resData = json.decode(resed.body);
 
+    print(resData.toString());
+
     if(res.statusCode==200){
       emit(SuccessFormDontion(resData['message'].toString(),
           resData['item']['user_id'].toString()));
