@@ -54,5 +54,14 @@ static const String nameImage='nameImage';
 static const String pleaseEnterYourName='pleaseEnterYourName';
 static const String availableUpTo='availableUpTo';
 
+  static const String youCanFill='youCanFill';
+  static const String theName='theName';
+  static const String pleaseEnterName='pleaseEnterName';
+  static const String fullName='fullName';
+  static const String pleaseEnterPhone='pleaseEnterPhone';
+  static const String num='num';
+  static const String pleaseEnterEmail='pleaseEnterEmail';
+  static const String emaill='emaill';
+
 
 }

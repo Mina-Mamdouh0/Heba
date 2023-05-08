@@ -217,9 +217,10 @@ class _DrawerWidget2State extends State<DrawerWidget2> {
             if(search.text.isNotEmpty){
               if(state.lendth!=0){
                 Navigator.of(context).pop();
+              }else{
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AvailableFormScreen()));
               }
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>AvailableFormScreen()));
-            }else{
+              }else{
               Navigator.of(context).pop();
             }
 
