@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:haba/translations/locale_keys.g.dart';
 
 import '../../constant.dart';
 
@@ -12,7 +13,7 @@ class AboutUsScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Constant.greenColor,
-        title:  Text('About Us',style: TextStyle(
+        title:  Text(LocaleKeys.aboutUs.tr(),style: TextStyle(
           color:  Constant.blackColor,fontWeight: FontWeight.bold,
         )),
 
@@ -21,40 +22,24 @@ class AboutUsScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('''
-From  United Arab Emirates, the Emirate of Dubai the Heba Charity platform is launched to the world, its main objectives are as follows
-              ''',style: TextStyle(
+              Text(LocaleKeys.aboutText1.tr(),style: TextStyle(
                   color: Constant.blackColor,fontWeight: FontWeight.w400,fontSize: 18
               ),),
-              Text('''
-1- Benefit from a lot of things that others have and they do not need
-
-     ''',style: TextStyle(
+              Text(LocaleKeys.aboutText2.tr(),style: TextStyle(
                   color: Constant.blackColor,fontWeight: FontWeight.w400,fontSize: 18
               ),),
-              Text('''
-2- Reuse many things instead of getting rid of them
-
-
-     ''',style: TextStyle(
+              Text(LocaleKeys.aboutText3.tr(),style: TextStyle(
                   color: Constant.blackColor,fontWeight: FontWeight.w400,fontSize: 18
               ),),
-              Text('''
-3- Building a link of communication and a helping hand among community members
-
- ''',style: TextStyle(
+              Text(LocaleKeys.aboutText4.tr(),style: TextStyle(
                   color: Constant.blackColor,fontWeight: FontWeight.w400,fontSize: 18
               ),),
-              Text('''
-4- Maintain a clean environment by reducing waste
-
- ''',style: TextStyle(
+              Text(LocaleKeys.aboutText5.tr(),style: TextStyle(
                   color: Constant.blackColor,fontWeight: FontWeight.w400,fontSize: 18
               ),),
-              Text('''
-5- Building the qualities of love of giving and helping all segments of society
- ''',style: TextStyle(
+              Text(LocaleKeys.aboutText6.tr(),style: TextStyle(
                   color: Constant.blackColor,fontWeight: FontWeight.w400,fontSize: 18
               ),),
 

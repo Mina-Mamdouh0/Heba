@@ -1,15 +1,19 @@
 
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:haba/bloc/app_cubit.dart';
+import 'package:haba/bloc/app_state.dart';
 import 'package:haba/constant.dart';
+import 'package:haba/screens/add_screen.dart';
 import 'package:haba/screens/contact_us_screen.dart';
 import 'package:haba/screens/drawer_screens/abour_us_screen.dart';
+import 'package:haba/screens/drawer_screens/how_it_works_screen.dart';
+import 'package:haba/screens/drawer_screens/our_vision_screen.dart';
+import 'package:haba/translations/locale_keys.g.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../screens/add_screen.dart';
-import '../screens/drawer_screens/how_it_works_screen.dart';
-import '../screens/drawer_screens/our_vision_screen.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({Key? key}) : super(key: key);
@@ -25,149 +29,194 @@ class DrawerWidget extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-           mainAxisAlignment: MainAxisAlignment.start,
-           children: [
-             const SizedBox(height: 30,),
-             Row(
-               mainAxisAlignment: MainAxisAlignment.center,
-               crossAxisAlignment: CrossAxisAlignment.center,
-               children: [
-                 Container(
-                   width: 120,
-                   height: 80,
-                     child:SvgPicture.asset('assets/images/logoo.svg',fit: BoxFit.fill) ,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(height: 30,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 120,
+                  height: 80,
+                  child:SvgPicture.asset('assets/images/logoo.svg',fit: BoxFit.fill) ,
 
 
-                 ),
+                ),
 
-               ],
-             ),
-             const SizedBox(height: 10,),
+              ],
+            ),
+            const SizedBox(height: 10,),
 
-             ListTile(
-               onTap: (){
-                 Navigator.push(context,
-                     MaterialPageRoute(builder: (context) => FormPageView()));
-                 },
-               contentPadding: const EdgeInsets.all(5),
-               title: Text('Donate',style: TextStyle(
-                 color: Constant.blackColor,
-                 fontSize: 16,fontWeight: FontWeight.w400
-               )),
-               subtitle: Text('Donation is Here',style: TextStyle(
-                   color: Constant.blackColor,
-                   fontSize: 14,fontWeight: FontWeight.w300
-               )),
-               trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
-             ),
-             const SizedBox(height: 10,),
+            ListTile(
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FormPageView()));
+              },
+              contentPadding: const EdgeInsets.all(5),
+              title: Text(LocaleKeys.donate.tr(),style: TextStyle(
+                  color: Constant.blackColor,
+                  fontSize: 16,fontWeight: FontWeight.w400
+              )),
+              subtitle: Text(LocaleKeys.donationIsHere.tr(),style: TextStyle(
+                  color: Constant.blackColor,
+                  fontSize: 14,fontWeight: FontWeight.w300
+              )),
+              trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
+            ),
+            const SizedBox(height: 10,),
 
-             ListTile(
-               onTap: (){
-    Navigator.push(context,
-    MaterialPageRoute(builder: (context) => AboutUsScreen()));
-    },
-               contentPadding: const EdgeInsets.all(5),
-               title: Text('ABOUT US',style: TextStyle(
-                   color: Constant.blackColor,
-                   fontSize: 16,fontWeight: FontWeight.w400
-               )),
-               subtitle: Text('Donation is Here',style: TextStyle(
-                   color: Constant.blackColor,
-                   fontSize: 14,fontWeight: FontWeight.w300
-               )),
-               trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
-             ),
+            ListTile(
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const AboutUsScreen()));
+              },
+              contentPadding: const EdgeInsets.all(5),
+              title: Text(LocaleKeys.aboutUS.tr(),style: TextStyle(
+                  color: Constant.blackColor,
+                  fontSize: 16,fontWeight: FontWeight.w400
+              )),
+              trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
+            ),
 
-             const SizedBox(height: 10,),
+            const SizedBox(height: 10,),
 
-             ListTile(
-               onTap: (){
-                 Navigator.push(context, MaterialPageRoute(builder: (context)=>OurVision()));
-               },
-               contentPadding: const EdgeInsets.all(5),
-               title: Text('OUR VISION',style: TextStyle(
-                   color: Constant.blackColor,
-                   fontSize: 16,fontWeight: FontWeight.w400
-               )),
-               subtitle: Text('Donation is Here',style: TextStyle(
-                   color: Constant.blackColor,
-                   fontSize: 14,fontWeight: FontWeight.w300
-               )),
-               trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
-             ),
+            ListTile(
+              onTap: (){
+                BlocProvider.of<AppCubit>(context).getOurVision();
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>const OurVision()));
+              },
+              contentPadding: const EdgeInsets.all(5),
+              title: Text(LocaleKeys.ourVision.tr(),style: TextStyle(
+                  color: Constant.blackColor,
+                  fontSize: 16,fontWeight: FontWeight.w400
+              )),
+              trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
+            ),
 
-             const SizedBox(height: 10,),
+            const SizedBox(height: 10,),
 
-             ListTile(
-               onTap: (){
-                 Navigator.push(context, MaterialPageRoute(builder: (context)=>HowItWorksScreen()));
+            ListTile(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>const HowItWorksScreen()));
+              },
+              contentPadding: const EdgeInsets.all(5),
+              title: Text(LocaleKeys.howItWorks.tr(),style: TextStyle(
+                  color: Constant.blackColor,
+                  fontSize: 16,fontWeight: FontWeight.w400
+              )),
+              trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
+            ),
 
-               },
-               contentPadding: const EdgeInsets.all(5),
-               title: Text('HOW IT WORKS',style: TextStyle(
-                   color: Constant.blackColor,
-                   fontSize: 16,fontWeight: FontWeight.w400
-               )),
-               subtitle: Text('Donation is Here',style: TextStyle(
-                   color: Constant.blackColor,
-                   fontSize: 14,fontWeight: FontWeight.w300
-               )),
-               trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
-             ),
+            const SizedBox(height: 10,),
 
-             const SizedBox(height: 10,),
+            ListTile(
+              onTap: (){
+                BlocProvider.of<AppCubit>(context).getContactUs();
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>const ContactUsScreen()));
 
-             ListTile(
-               onTap: (){
-                 Navigator.push(context, MaterialPageRoute(builder: (context)=>ContactUsScreen()));
+              },
+              contentPadding: const EdgeInsets.all(5),
+              title: Text(LocaleKeys.contactUs.tr(),style: TextStyle(
+                  color: Constant.blackColor,
+                  fontSize: 16,fontWeight: FontWeight.w400
+              )),
+              trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
+            ),
 
-               },
-               contentPadding: const EdgeInsets.all(5),
-               title: Text('Contact Us',style: TextStyle(
-                   color: Constant.blackColor,
-                   fontSize: 16,fontWeight: FontWeight.w400
-               )),
-               subtitle: Text('Donation is Here',style: TextStyle(
-                   color: Constant.blackColor,
-                   fontSize: 14,fontWeight: FontWeight.w300
-               )),
-               trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
-             ),
+            const SizedBox(height: 10,),
 
-             const SizedBox(height: 10,),
+            ListTile(
+              onTap: (){},
+              contentPadding: const EdgeInsets.all(5),
+              title: Text(LocaleKeys.tellFriend.tr(),style: TextStyle(
+                  color: Constant.blackColor,
+                  fontSize: 16,fontWeight: FontWeight.w400
+              )),
+              trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
+            ),
+            const SizedBox(height: 10,),
 
-             ListTile(
-               onTap: (){},
-               contentPadding: const EdgeInsets.all(5),
-               title: Text('TELL A FRIEND',style: TextStyle(
-                   color: Constant.blackColor,
-                   fontSize: 16,fontWeight: FontWeight.w400
-               )),
-               subtitle: Text('Change to arabic',style: TextStyle(
-                   color: Constant.blackColor,
-                   fontSize: 14,fontWeight: FontWeight.w300
-               )),
-               trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
-             ),
-             const SizedBox(height: 10,),
 
-             ListTile(
-               onTap: (){},
-               contentPadding: const EdgeInsets.all(5),
-               title: Text('Change language',style: TextStyle(
-                   color: Constant.blackColor,
-                   fontSize: 16,fontWeight: FontWeight.w400
-               )),
-               subtitle: Text('Change to arabic',style: TextStyle(
-                   color: Constant.blackColor,
-                   fontSize: 14,fontWeight: FontWeight.w300
-               )),
-               trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
-             ),
-           ],
+            BlocBuilder<AppCubit,AppState>(
+                builder: (context, state){
+                  return ListTile(
+                    onTap: ()async{
+                      if(context.locale == const Locale('ar')){
+                        BlocProvider.of<AppCubit>(context).changeLunApp(context: context, lun: 'en');
+                        SharedPreferences pref=await SharedPreferences.getInstance();
+                        pref.setString('Lung', 'en');
+
+                      }else{
+                        BlocProvider.of<AppCubit>(context).changeLunApp(context: context, lun: 'ar');
+                        SharedPreferences pref=await SharedPreferences.getInstance();
+                        pref.setString('Lung', 'ar');
+                      }
+                      Navigator.pop(context);
+                    },
+                    contentPadding: const EdgeInsets.all(5),
+                    title: Text(LocaleKeys.changeLanguage.tr(),style: TextStyle(
+                        color: Constant.blackColor,
+                        fontSize: 16,fontWeight: FontWeight.w400
+                    )),
+                    trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
+                  );
+                }),
+          ],
         ),
       ),
     );
   }
+}
+
+Widget show({required BuildContext context,
+  required Function() camera,
+  required Function() gallery,}){
+  return AlertDialog(
+    title:const  Text(
+      'Choose Image',
+      style: TextStyle(
+          fontSize: 20,
+          color: Colors.black,
+          fontWeight: FontWeight.bold
+      ),
+    ),
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        InkWell(
+          onTap: camera,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: const [
+                Icon(Icons.photo,color: Colors.green,),
+                SizedBox(width: 10,),
+                Text('Camera',
+                  style: TextStyle(
+                      color: Colors.green,fontSize: 20
+                  ),)
+              ],
+            ),
+          ),
+        ),
+        InkWell(
+          onTap: gallery,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: const [
+                Icon(Icons.camera,color: Colors.green,),
+                SizedBox(width: 10,),
+                Text('Gallery',
+                  style: TextStyle(
+                      color: Colors.green,fontSize: 20
+                  ),)
+              ],
+            ),
+          ),
+        )
+      ],
+    ),
+  );
 }

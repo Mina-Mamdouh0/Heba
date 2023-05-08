@@ -1,5 +1,7 @@
-import 'package:flutter/cupertino.dart';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:haba/translations/locale_keys.g.dart';
 
 import '../../constant.dart';
 
@@ -18,100 +20,103 @@ class HowItWorksScreen extends StatelessWidget {
 
       ),
       body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color:Colors.grey.withOpacity(0.1) ,
+                      border: Border.all(color: Colors.grey.withOpacity(0.6), width: 2),
+                      borderRadius: BorderRadius.circular(10)),
+                  width: 300,
+                  height: 250,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/images/Layer 2.png',width: 110,),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Text(LocaleKeys.fillDetails.tr(),style: TextStyle(
+                          color: Constant.greenColor,fontWeight: FontWeight.bold,fontSize: 18
+                      ),),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                       Text(LocaleKeys.fillAllItemDetails.tr(),style: const TextStyle(
+                          color: Constant.black,fontWeight: FontWeight.w300,fontSize: 18
+                      ),),
+                       Text(LocaleKeys.andYourContact.tr(),style: const TextStyle(
+                          color: Constant.black,fontWeight: FontWeight.w300,fontSize: 18
+                      ),),
+                       Text(LocaleKeys.information.tr(),style:const  TextStyle(
+                          color: Constant.black,fontWeight: FontWeight.w300,fontSize: 18
+                      ),),
+
+                    ],
+                  ),
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color:Colors.grey.withOpacity(0.1) ,
+                      border: Border.all(color: Colors.grey.withOpacity(0.6), width: 2),
+                      borderRadius: BorderRadius.circular(10)),
+                  width: 300,
+                  height: 250,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/images/Group 203.png',width: 200,),
+
+
+                    ],
+                  ),
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
                     color:Colors.grey.withOpacity(0.1) ,
                     border: Border.all(color: Colors.grey.withOpacity(0.6), width: 2),
                     borderRadius: BorderRadius.circular(10)),
-                width: 300,
-                height: 250,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset('assets/images/Layer 2.png',width: 110,),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text('Fill all details',style: TextStyle(
-                        color: Constant.greenColor,fontWeight: FontWeight.bold,fontSize: 18
-                    ),),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text('Fill all item detials ',style: TextStyle(
-                        color: Constant.black,fontWeight: FontWeight.w300,fontSize: 18
-                    ),),
-                    const Text('and your contact ',style: TextStyle(
-                        color: Constant.black,fontWeight: FontWeight.w300,fontSize: 18
-                    ),),
-                    const Text('information',style: TextStyle(
-                        color: Constant.black,fontWeight: FontWeight.w300,fontSize: 18
-                    ),),
+                  width: 300,
+                  height: 250,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/images/Group 212.png',width: 110,),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Text(LocaleKeys.receiveCallDonate.tr(),style: TextStyle(
+                          color: Constant.greenColor,fontWeight: FontWeight.bold,fontSize: 18
+                      ),),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                       Text(LocaleKeys.youReceiveCall.tr(),style: const TextStyle(
+                          color: Constant.black,fontWeight: FontWeight.w300,fontSize: 18
+                      ),),
+                       Text(LocaleKeys.identifyLocationTime.tr(),style: const TextStyle(
+                          color: Constant.black,fontWeight: FontWeight.w300,fontSize: 18
+                      ),),
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                    color:Colors.grey.withOpacity(0.1) ,
-                    border: Border.all(color: Colors.grey.withOpacity(0.6), width: 2),
-                    borderRadius: BorderRadius.circular(10)),
-                width: 300,
-                height: 250,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset('assets/images/Group 203.png',width: 200,),
-
-
-                  ],
-                ),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color:Colors.grey.withOpacity(0.1) ,
-                  border: Border.all(color: Colors.grey.withOpacity(0.6), width: 2),
-                  borderRadius: BorderRadius.circular(10)),
-                width: 300,
-                height: 250,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset('assets/images/Group 212.png',width: 110,),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text('Receive call and donate',style: TextStyle(
-                        color: Constant.greenColor,fontWeight: FontWeight.bold,fontSize: 18
-                    ),),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text('You will receive call',style: TextStyle(
-                        color: Constant.black,fontWeight: FontWeight.w300,fontSize: 18
-                    ),),
-                    const Text('to identify location and time',style: TextStyle(
-                        color: Constant.black,fontWeight: FontWeight.w300,fontSize: 18
-                    ),),
-
-                  ],
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       )
     );
