@@ -21,9 +21,9 @@ dependencies:
   easy_localization: ^3.0.1
   url_launcher: ^6.1.10
   flutter_phone_direct_caller: ^2.1.1
-  cupertino_icons: ^1.0.2
   image_picker: ^0.8.7+4
 
+  cupertino_icons: ^1.0.2
 
 dev_dependencies:
   flutter_test:

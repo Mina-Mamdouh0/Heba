@@ -27,6 +27,12 @@ class AppCubit extends Cubit<AppState> {
     emit(ChangeLunApp());
   }
 
+  int currentIndex=0;
+  void changeIndex(int index){
+    currentIndex=index;
+    emit(ChangeIndexState());
+  }
+
   File? file;
   void changeImage(String imagePath){
     file=File(imagePath);
@@ -53,7 +59,7 @@ class AppCubit extends Cubit<AppState> {
        itemList.add(ItemModel.jsonData(value['items'][i]));
      }
      print('done');
-     emit(SuccessGetItemHome(1));
+     emit(SuccessGetItemHome(value['items'].length));
   }).onError((error, stackTrace){
     print(error.toString());
     emit(ErrorGetItemHome());
@@ -132,6 +138,33 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
+  void uploadForm({required String name,required String phone,
+  required String email,required String msg,required String subject})async{
+
+    emit(LoadingFormSearch());
+    SharedPreferences pref=await SharedPreferences.getInstance();
+    String lun=pref.getString('Lung',)??'';
+    await Services.post(uri: Uri.parse('https://hibadonations.com/api/contact/submit'),
+        headers: {
+          'Accept':'application/json',
+          'Content-Type':'application/json',
+          'X-localization':lun,
+        },
+    queryParams: {
+      'name':name,
+      'mobile':phone,
+      'email':email,
+      'subject':subject,
+      'msg':msg,
+    }).then((value){
+      emit(SuccessFormSearch());
+
+    }).onError((error, stackTrace){
+      print('eee');
+      emit(ErrorFormSearch());
+    });
+  }
+
 
 
 
@@ -181,10 +214,10 @@ class AppCubit extends Cubit<AppState> {
   void uploadDonation({required String name,required int showName ,
   required int contactType,required String mobile,required String email,
   required int categoryId,required int cityId,required String address,
-  required String title,required String description,required String validFor}){
+  required String title,required String description,required String validFor})async{
 
-
-    var request = http.MultipartRequest('POST', Uri.parse('${Constant.baseUrl}/api/page/our-vision'));
+    emit(LoadingFormDontion());
+    var request = http.MultipartRequest('POST', Uri.parse('https://hibadonations.com/api/donate/new'));
     request.files.add(http.MultipartFile.fromBytes('files', File(file!.path).readAsBytesSync(),filename: file!.path));
 
     request.fields['donor_name'] = name;
@@ -199,6 +232,41 @@ class AppCubit extends Cubit<AppState> {
     request.fields['title'] = title;
     request.fields['description'] = description;
     request.fields['valid_for'] = validFor.toString();
+
+    var res = await request.send();
+    var resed = await http.Response.fromStream(res);
+    var resData = json.decode(resed.body);
+
+    print(resData.toString());
+
+    if(res.statusCode==200){
+      emit(SuccessFormDontion(resData['message'].toString(),
+          resData['item']['user_id'].toString()));
+    }else{
+      emit(ErrorFormDontion());
+    }
+  }
+
+  void VerifyOTP({required String uuid,required String code})async{
+    emit(LoadingOtp());
+    SharedPreferences pref=await SharedPreferences.getInstance();
+    String lun=pref.getString('Lung',)??'';
+    await Services.post(uri: Uri.parse('https://hibadonations.com/api/verify'),
+        headers: {
+          'Accept':'application/json',
+          'Content-Type':'application/json',
+          'X-localization':lun,
+        },
+        queryParams: {
+          'user_id':uuid,
+          'otp':code,
+        }).then((value){
+      emit(SuccessOtp());
+
+    }).onError((error, stackTrace){
+      print('eee');
+      emit(ErrorOtp());
+    });
   }
 
 
@@ -208,6 +276,19 @@ class Services{
   static Future<dynamic> get({required Uri uri,Map<String,dynamic>? queryParams,
     Map<String,String>? headers})async{
     http.Response response=await http.get(uri.replace(
+        queryParameters: queryParams
+    ),headers:headers );
+    if(response.statusCode==200){
+      return jsonDecode(response.body);
+    }else{
+      throw Exception('statusCode = ${response.statusCode}');
+    }
+  }
+
+  static Future<dynamic> post({required Uri uri,Map<String,dynamic>? queryParams,
+    Map<String,String>? headers})async{
+
+    http.Response response=await http.post(uri.replace(
         queryParameters: queryParams
     ),headers:headers );
     if(response.statusCode==200){

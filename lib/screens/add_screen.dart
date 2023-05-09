@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:haba/bloc/app_cubit.dart';
 import 'package:haba/constant.dart';
+import 'package:haba/screens/otp_screen.dart';
 import 'package:haba/shared/defult_text.dart';
 import 'package:haba/translations/locale_keys.g.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,15 +24,36 @@ class _FormPageViewState extends State<FormPageView> {
   int pageIndex = 0;
   PageController page = PageController(initialPage: 0);
 
-  String dropdownvalue = 'Item 1';
+  int showName=0;
+
+  String? dropdownvalue;
+  String? valCategory;
+  String? valCountries;
+  String? valCities;
   var items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+  ];
+
+  String? contactType;
+  int contact=0;
+  var contactTypeList = [
+    'هاتف',
+    'بريد الالكتروني',
   ];
   bool _isChecked = false;
+  final TextEditingController name=TextEditingController();
+  final TextEditingController decs=TextEditingController();
+  final TextEditingController nameDontion=TextEditingController();
+  final TextEditingController phone=TextEditingController();
+  final TextEditingController email=TextEditingController();
+  final TextEditingController address=TextEditingController();
+
+
+
 
   void _nextPage() {
     if (_formKey.currentState!.validate()) {
@@ -95,7 +117,8 @@ class _FormPageViewState extends State<FormPageView> {
                                         });
                                   });
                             },
-                            child: Container(
+                            child: (cubit.file==null)?
+                            Container(
                               width: 330,
                               height: 100,
                               color: Constant.grayColor,
@@ -114,6 +137,11 @@ class _FormPageViewState extends State<FormPageView> {
                                   ),
                                 ],
                               ),
+                            ):Container(
+                              width: 330,
+                              height: 100,
+                              color: Constant.grayColor,
+                              child: Image.file(cubit.file!,fit: BoxFit.cover,)
                             ),
                           ),
                           const SizedBox(
@@ -132,16 +160,18 @@ class _FormPageViewState extends State<FormPageView> {
                             ],
                           ),
                           TextFormField(
+                            controller: name,
                             validator: (value) {
-                              if (value!.isEmpty)
+                              if (value!.isEmpty){
                                 return LocaleKeys.pleaseEnterYourName.tr();
+                              }
                             },
                             decoration: InputDecoration(
                               hintText: LocaleKeys.exampleBlueShirt.tr(),
                               border: InputBorder.none,
                               filled: true,
                               fillColor: Constant.grayColor,
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 8),
                             ),
                           ),
@@ -160,23 +190,40 @@ class _FormPageViewState extends State<FormPageView> {
                               ),
                             ],
                           ),
-                          DropdownButton(
-                              value: dropdownvalue,
-                              underline: Container(),
-                              icon: null,
-                              isExpanded: true,
-                              items: items.map((String items) {
-                                return DropdownMenuItem(
-                                  value: items,
-                                  child: Text(items),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  dropdownvalue = newValue!;
-                                });
+                          DropdownButtonFormField(
+                              items:  [
+                                DropdownMenuItem(
+                                  value: 'e',
+                                  child: Text(LocaleKeys.didNotSpecify.tr()),
+                                ),
+                                ...cubit.categoryList.map((e){
+                                  return DropdownMenuItem(
+                                    value: e.id.toString(),
+                                    child: Text(e.name??''),
+                                  );
+                                }),
+                              ],
+                              value: valCategory,
+                              onChanged: (String? val){
+                                if(val!=null){
+                                  if(valCategory=='e'){
+                                    valCategory='-1';
+                                  }else{
+                                    valCategory=val.toString();
+                                  }
+                                }
                               },
-                              alignment: Alignment.centerLeft),
+                              decoration:InputDecoration(
+                                label:Text(LocaleKeys.category.tr()),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide(
+                                      color: Constant.blackColor,
+                                    )
+                                ),
+
+                              )
+                          ),
                           const SizedBox(
                             height: AppSize.s15,
                           ),
@@ -226,6 +273,7 @@ class _FormPageViewState extends State<FormPageView> {
                           ),
                           TextFormField(
                             maxLength: 6,
+                            controller: decs,
                             decoration: InputDecoration(
                               hintText: 'مثال قميص ازرق مقاس xl مصنوع من خامه...',
                               border: InputBorder.none,
@@ -244,7 +292,10 @@ class _FormPageViewState extends State<FormPageView> {
                             height: AppSize.s15,
                           ),
                           InkWell(
-                            onTap: _nextPage,
+                            onTap: (){
+                              _nextPage();
+
+                            },
                             child: Container(
                               width: 300.0,
                               height: 45.0,
@@ -288,6 +339,7 @@ class _FormPageViewState extends State<FormPageView> {
                             ],
                           ),
                           TextFormField(
+                            controller: nameDontion,
                             validator: (value) {
                               if (value!.isEmpty)
                                 return LocaleKeys.pleaseEnterYourFirstName.tr();
@@ -306,8 +358,13 @@ class _FormPageViewState extends State<FormPageView> {
                               Checkbox(
                                 value: _isChecked,
                                 onChanged: (value) {
+                                  if(value!){
+                                    showName=0;
+                                  }else{
+                                    showName=1;
+                                  }
                                   setState(() {
-                                    _isChecked = value!;
+                                    _isChecked = value;
                                   });
                                 },
                                 activeColor: Colors.green,
@@ -331,19 +388,24 @@ class _FormPageViewState extends State<FormPageView> {
                             ],
                           ),
                           DropdownButton(
-                              value: dropdownvalue,
+                              value: contactType,
                               underline: Container(),
                               icon: null,
                               isExpanded: true,
-                              items: items.map((String items) {
+                              items: contactTypeList.map((String items) {
                                 return DropdownMenuItem(
                                   value: items,
                                   child: Text(items),
                                 );
                               }).toList(),
                               onChanged: (String? newValue) {
+                                if(newValue=='هاتف'){
+                                  contact=0;
+                                }else{
+                                  contact=1;
+                                }
                                 setState(() {
-                                  dropdownvalue = newValue!;
+                                  contactType = newValue!;
                                 });
                               },
                               alignment: Alignment.centerLeft),
@@ -363,9 +425,12 @@ class _FormPageViewState extends State<FormPageView> {
                             ],
                           ),
                           TextFormField(
+                            controller: phone,
                             validator: (value) {
-                              if (value!.isEmpty)
+                              if (value!.isEmpty){
                                 return LocaleKeys.pleaseEnterYourPhone.tr();
+                              }
+
                             },
                             decoration: InputDecoration(
                               hintText: LocaleKeys.phone.tr(),
@@ -392,9 +457,11 @@ class _FormPageViewState extends State<FormPageView> {
                             ],
                           ),
                           TextFormField(
+                            controller: email,
                             validator: (value) {
-                              if (value!.isEmpty)
+                              if (value!.isEmpty){
                                 return LocaleKeys.pleaseEnterYourEmail.tr();
+                              }
                             },
                             decoration: InputDecoration(
                               hintText: LocaleKeys.email.tr(),
@@ -426,23 +493,47 @@ class _FormPageViewState extends State<FormPageView> {
                                         ),
                                       ],
                                     ),
-                                    DropdownButton(
-                                        value: dropdownvalue,
-                                        underline: Container(),
-                                        icon: null,
+                                    (state is LoadingGetCountries)?
+                                    const Center(child: CircularProgressIndicator(),):
+                                    (state is LoadingGetCities)?Container():
+                                    DropdownButtonFormField(
                                         isExpanded: true,
-                                        items: items.map((String items) {
-                                          return DropdownMenuItem(
-                                            value: items,
-                                            child: Text(items),
-                                          );
-                                        }).toList(),
-                                        onChanged: (String? newValue) {
-                                          setState(() {
-                                            dropdownvalue = newValue!;
-                                          });
+                                        items:  [
+                                          DropdownMenuItem(
+                                            value: 'e',
+                                            child: Text(LocaleKeys.didNotSpecify.tr()),
+                                          ),
+                                          ...cubit.countriesList.map((e){
+                                            return DropdownMenuItem(
+                                              value: e.id.toString(),
+                                              child: Text(e.name??'',softWrap: true,overflow: TextOverflow.ellipsis),
+                                            );
+                                          }),
+                                        ],
+                                        value: valCountries,
+                                        onChanged: (String? val){
+                                          if(val!=null){
+                                            if(valCountries=='e'){
+                                              valCountries='-1';
+                                            }else{
+                                              valCountries=val.toString();
+                                              cubit.getCities(countryID: valCountries??'');
+                                            }
+                                          }
+
                                         },
-                                        alignment: Alignment.centerLeft),
+                                        decoration:InputDecoration(
+                                          label:  Text(LocaleKeys.countries.tr()),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(12),
+                                              borderSide: BorderSide(
+                                                color: Constant.blackColor,
+                                              )
+                                          ),
+
+                                        )
+                                    ),
+                                    const SizedBox(height: 10,),
                                   ],
                                 ),
                               ),
@@ -464,23 +555,44 @@ class _FormPageViewState extends State<FormPageView> {
                                         ),
                                       ],
                                     ),
-                                    DropdownButton(
-                                        value: dropdownvalue,
-                                        underline: Container(),
-                                        icon: null,
-                                        isExpanded: true,
-                                        items: items.map((String items) {
-                                          return DropdownMenuItem(
-                                            value: items,
-                                            child: Text(items),
-                                          );
-                                        }).toList(),
-                                        onChanged: (String? newValue) {
-                                          setState(() {
-                                            dropdownvalue = newValue!;
-                                          });
+                                    (state is LoadingGetCities)?
+                                    const Center(child: CircularProgressIndicator(),):
+                                    DropdownButtonFormField(
+                                        items:  [
+                                          DropdownMenuItem(
+                                            value: 'e',
+                                            child: Text(LocaleKeys.didNotSpecify.tr()),
+                                          ),
+                                          ...cubit.citiesList.map((e){
+                                            return DropdownMenuItem(
+                                              value: e.id.toString(),
+                                              child: Text(e.name??''),
+                                            );
+                                          }),
+                                        ],
+                                        value: valCities,
+                                        onChanged: (String? val){
+                                          if(val!=null){
+                                            if(valCities=='e'){
+                                              valCities='-1';
+                                            }else{
+                                              valCities=val.toString();
+                                            }
+                                          }
+
                                         },
-                                        alignment: Alignment.centerLeft),
+                                        decoration:InputDecoration(
+                                          label:  Text(LocaleKeys.cities.tr()),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(12),
+                                              borderSide: BorderSide(
+                                                color: Constant.blackColor,
+                                              )
+                                          ),
+
+                                        )
+                                    ),
+                                    const SizedBox(height: 10,),
                                   ],
                                 ),
                               ),
@@ -502,9 +614,11 @@ class _FormPageViewState extends State<FormPageView> {
                             ],
                           ),
                           TextFormField(
+                            controller: address,
                             validator: (value) {
-                              if (value!.isEmpty)
+                              if (value!.isEmpty){
                                 return LocaleKeys.pleaseEnterYourAddress.tr();
+                              }
                             },
                             decoration: InputDecoration(
                               hintText: LocaleKeys.buildingNumber.tr(),
@@ -518,9 +632,24 @@ class _FormPageViewState extends State<FormPageView> {
                           const SizedBox(
                             height: AppSize.s15,
                           ),
-                          InkWell(
+                          (state is LoadingFormDontion)?
+                          Center(child: CircularProgressIndicator(),):InkWell(
                             onTap: () {
-                              if (_formKey.currentState!.validate()) {}
+                              if (_formKey.currentState!.validate()) {
+                                cubit.uploadDonation(
+                                    description: decs.text,
+                                    name: nameDontion.text,
+                                    email: email.text,
+                                    address: address.text,
+                                    cityId: int.parse(valCities!),
+                                    categoryId:int.parse(valCategory!),
+                                    title: name.text,
+                                    contactType: contact,
+                                    mobile: phone.text,
+                                    showName: showName,
+                                    validFor: dropdownvalue!
+                                );
+                              }
                             },
                             child: Container(
                               width: 300.0,
@@ -543,6 +672,16 @@ class _FormPageViewState extends State<FormPageView> {
                   ),
                 ])),
       );
-    }, listener: (context , state){});
+    }, listener: (context , state){
+      if(state is SuccessFormDontion){
+        BlocProvider.of<AppCubit>(context).file=null;
+        if(state.msg=='Please verify your contact'){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpScreen(userId:state.userID)));
+        }else{
+          BlocProvider.of<AppCubit>(context).changeIndex(0);
+        }
+
+      }
+    });
   }
 }

@@ -57,13 +57,14 @@ const Map<String, String> ar = {
 
 // avalible Form
   'youCanFill' : 'يمكنك تعبئة الحقول أدناه ليصيلك إشعار فور توفر عناصر مشابهة.',
-  ' "theName"' : 'الاسم',
+  'theName' : 'الاسم',
   'pleaseEnterName' : 'يرجى ادخال الاسم كامل',
   'fullName' : 'الاسم كامل',
   'pleaseEnterPhone' : 'Please enter your phone number',
   "num" : '+9715XXXXXXXXX',
   "pleaseEnterEmail" : 'Please enter your email',
   'emaill' : 'email@email.com',
+  'subject' : 'subject',
 
 
 

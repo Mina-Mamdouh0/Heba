@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 isGridView=true;
                               });
                             },
-                            child: SvgPicture.asset("assets/images/th.svg")),
+                            child: SvgPicture.asset("assets/images/th.svg",color: isGridView?Constant.greenColor:Colors.black,)),
                         const SizedBox(
                           width : 22.0,
                         ),
@@ -167,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 isGridView=false;
                               });
                             },
-                            child: SvgPicture.asset("assets/images/list.svg")),
+                            child: SvgPicture.asset("assets/images/list.svg",color: !isGridView?Constant.greenColor:Colors.black,)),
                       ],
                     ),
                   ),
@@ -287,14 +287,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                     topRight: Radius.circular(12),
                                   ),
                                   child: CachedNetworkImage(
-                                    imageUrl: cubit.itemList[index].imagesModel![0].image??'',
+                                    imageUrl: '${Constant.baseUrl}/${cubit.itemList[index].imagesModel![0].image??''}',
                                     fit: BoxFit.cover,
+                                    height: 150,
+                                    width: double.infinity,
                                     placeholder: (context, url) =>  const Center(child: CircularProgressIndicator()),
                                     errorWidget: (context, url, error) => Image.asset('${Constant.imagePath}${'cover.png'}'),
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical:2),
+                                  padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical:4),
                                   child: Text(cubit.itemList[index].title??'',style: TextStyle(
                                     color: Constant.blackColor,fontWeight: FontWeight.w700,fontSize: 18,
                                   ),),
