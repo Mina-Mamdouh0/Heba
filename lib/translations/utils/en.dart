@@ -25,6 +25,15 @@ const Map<String, String> en = {
   'andYourContact':'and your contact',
   'information':'information',
 
+  'uploadAPicture' : 'Upload item image',
+  'uploadClearPicture' : 'Upload clear image of item',
+  'forDonate' : 'you want to donate',
+  'subject':'subject',
+  'msg':'Message',
+  'contactMassage':'Contact Message',
+  'contactForm':'Hi there, this is contact form test message please ignore me.',
+
+
   //drawer two
   'search':'Search',
   'didNotSpecify':'I not specify',

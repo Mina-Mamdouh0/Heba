@@ -25,6 +25,18 @@ abstract class  LocaleKeys {
   static const String andYourContact='andYourContact';
   static const String information='information';
 
+  static const String uploadAPicture='uploadAPicture';
+  static const String uploadClearPicture='uploadClearPicture';
+  static const String forDonate='forDonate';
+
+  static const String subject='subject';
+  static const String msg='msg';
+  static const String contactMassage='contactMassage';
+  static const String contactForm='contactForm';
+
+
+
+
   //drawer two
   static const String search='search';
   static const String didNotSpecify='didNotSpecify';

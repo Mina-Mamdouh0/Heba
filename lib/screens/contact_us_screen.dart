@@ -111,7 +111,6 @@ class ContactUsScreen extends StatelessWidget {
                             
                             Expanded(
                               child: Column(
-                                mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -119,7 +118,8 @@ class ContactUsScreen extends StatelessWidget {
                                       color: Constant.blackColor,fontWeight: FontWeight.w400,fontSize: 18
                                   ),),
                                   const SizedBox(height: 10,),
-                                  Text(cubit.contactModel.mobile??'',style: TextStyle(
+                                  Text(cubit.contactModel.mobile??'',
+                                    style: TextStyle(
                                       color: Constant.blackColor,fontWeight: FontWeight.bold,fontSize: 20
                                   ),),
 

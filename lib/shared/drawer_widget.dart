@@ -54,15 +54,22 @@ class DrawerWidget extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => FormPageView()));
               },
               contentPadding: const EdgeInsets.all(5),
-              title: Text(LocaleKeys.donate.tr(),style: TextStyle(
-                  color: Constant.blackColor,
-                  fontSize: 16,fontWeight: FontWeight.w400
-              )),
-              subtitle: Text(LocaleKeys.donationIsHere.tr(),style: TextStyle(
-                  color: Constant.blackColor,
-                  fontSize: 14,fontWeight: FontWeight.w300
-              )),
-              trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
+              title: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(LocaleKeys.donate.tr(),
+                    textAlign :TextAlign.justify,
+                    style: TextStyle(
+                    color: Constant.white,
+
+                    fontSize: 18,fontWeight: FontWeight.w400
+                )),
+              ),
+
+              shape: RoundedRectangleBorder( //<-- SEE HERE
+                borderRadius: BorderRadius.circular(40),
+              ),
+              tileColor:  Colors.red ,
+              trailing: Icon(Icons.arrow_forward_ios,color: Constant.white),
             ),
             const SizedBox(height: 10,),
 

@@ -99,7 +99,7 @@ class AvailableFormScreen extends StatelessWidget {
                         if (value!.isEmpty) return LocaleKeys.pleaseEnterPhone.tr();
                       },
                       decoration: InputDecoration(
-                        hintText: '+9715XXXXXXXXX',
+                        hintText: '9715XXXXXXXXX+',
                         border: InputBorder.none,
                         filled: true,
                         fillColor: Constant.grayColor,
@@ -147,7 +147,7 @@ class AvailableFormScreen extends StatelessWidget {
                   Row(
                     children:  [
                       Text(
-                        LocaleKeys.email.tr(),
+                        LocaleKeys.subject.tr(),
                         style: AppStyles.s18,
                       ),
                       const Text(
@@ -165,7 +165,7 @@ class AvailableFormScreen extends StatelessWidget {
                         if (value!.isEmpty) return LocaleKeys.pleaseEnterEmail.tr();
                       },
                       decoration: InputDecoration(
-                        hintText: 'subject',
+                        hintText: LocaleKeys.contactMassage.tr(),
                         border: InputBorder.none,
                         filled: true,
                         fillColor: Constant.grayColor,
@@ -178,12 +178,12 @@ class AvailableFormScreen extends StatelessWidget {
                     height: AppSize.s15,
                   ),
                   Row(
-                    children:  [
+                    children:   [
                       Text(
-                        'mag',
+                        LocaleKeys.msg.tr(),
                         style: AppStyles.s18,
                       ),
-                      const Text(
+                      Text(
                         "*",
                         style: AppStyles.s14r,
                       ),
@@ -198,7 +198,7 @@ class AvailableFormScreen extends StatelessWidget {
                         if (value!.isEmpty) return LocaleKeys.pleaseEnterEmail.tr();
                       },
                       decoration: InputDecoration(
-                        hintText: 'msg',
+                        hintText: LocaleKeys.contactForm.tr(),
                         border: InputBorder.none,
                         filled: true,
                         fillColor: Constant.grayColor,
