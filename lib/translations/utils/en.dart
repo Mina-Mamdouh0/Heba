@@ -40,6 +40,7 @@ const Map<String, String> en = {
   'cities':'Cities',
   'countries':'Countries',
   'category':'Category',
+  'subCategory':'Sub category',
   'submit':'Submit',
 
   'home':'Home',
@@ -73,4 +74,11 @@ const Map<String, String> en = {
   "num" : '+9715XXXXXXXXX',
   "pleaseEnterEmail" : 'Please enter your email',
   'emaill' : 'email@email.com',
+
+  //dialog
+  'chooseImage':'Choose Image',
+  'camera':'Camera',
+  'multiImage':'Add Images'
+
+
 };

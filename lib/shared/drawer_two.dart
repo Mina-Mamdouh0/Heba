@@ -76,7 +76,7 @@ class _DrawerWidget2State extends State<DrawerWidget2> {
                       ...cubit.categoryList.map((e){
                         return DropdownMenuItem(
                           value: e.id.toString(),
-                          child: Text(e.name??''),
+                          child: Text(context.locale==const Locale('ar')?e.arName??'':e.name??''),
                         );
                       }),
                     ],
@@ -116,7 +116,7 @@ class _DrawerWidget2State extends State<DrawerWidget2> {
                       ...cubit.countriesList.map((e){
                         return DropdownMenuItem(
                           value: e.id.toString(),
-                          child: Text(e.name??'',softWrap: true,overflow: TextOverflow.ellipsis),
+                          child: Text(context.locale==const Locale('ar')?e.nameAr??'':e.name??'',softWrap: true,overflow: TextOverflow.ellipsis),
                         );
                       }),
                     ],
@@ -157,7 +157,7 @@ class _DrawerWidget2State extends State<DrawerWidget2> {
                       ...cubit.citiesList.map((e){
                         return DropdownMenuItem(
                           value: e.id.toString(),
-                          child: Text(e.name??''),
+                          child: Text(context.locale==const Locale('ar')?e.nameAr??'':e.name??''),
                         );
                       }),
                     ],

@@ -9,6 +9,7 @@ import 'package:haba/bloc/app_state.dart';
 import 'package:haba/constant.dart';
 import 'package:haba/translations/locale_keys.g.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:ui' as ui;
 
 class ContactUsScreen extends StatelessWidget {
   const ContactUsScreen({Key? key}) : super(key: key);
@@ -118,10 +119,13 @@ class ContactUsScreen extends StatelessWidget {
                                       color: Constant.blackColor,fontWeight: FontWeight.w400,fontSize: 18
                                   ),),
                                   const SizedBox(height: 10,),
-                                  Text(cubit.contactModel.mobile??'',
-                                    style: TextStyle(
-                                      color: Constant.blackColor,fontWeight: FontWeight.bold,fontSize: 20
-                                  ),),
+                                  Directionality(
+                                    textDirection: ui.TextDirection.ltr,
+                                    child: Text(cubit.contactModel.mobile??'',
+                                      style: TextStyle(
+                                        color: Constant.blackColor,fontWeight: FontWeight.bold,fontSize: 20
+                                    ),),
+                                  ),
 
                                 ],
                               ),

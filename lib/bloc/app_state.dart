@@ -17,6 +17,10 @@ class LoadingGetCategory extends AppState{}
 class SuccessGetCategory extends AppState{}
 class ErrorGetCategory extends AppState{}
 
+class LoadingGetSubCategory extends AppState{}
+class SuccessGetSubCategory extends AppState{}
+class ErrorGetSubCategory extends AppState{}
+
 class LoadingGetCountries extends AppState{}
 class SuccessGetCountries extends AppState{}
 class ErrorGetCountries extends AppState{}

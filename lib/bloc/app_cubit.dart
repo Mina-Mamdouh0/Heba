@@ -2,8 +2,6 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +12,7 @@ import 'package:haba/model/item_model.dart';
 import 'package:haba/model/our_vision_model.dart';
 import 'package:haba/model/show_donate_form_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppCubit extends Cubit<AppState> {
@@ -33,12 +32,29 @@ class AppCubit extends Cubit<AppState> {
     emit(ChangeIndexState());
   }
 
-  File? file;
-  void changeImage(String imagePath){
-    file=File(imagePath);
-    if(file!=null){
-      emit(ChangeImageState());
-    }
+ /* uploadListImage(List<File> images)async{
+    ImagePicker picker = ImagePicker()            ;
+    List<XFile>? xFileImages                      ;
+    xFileImages = await picker.pickMultiImage(imageQuality:80 )   ;
+    var needImageSizeMessage = false   ;
+    for (XFile xFile in xFileImages) {
+
+      if(File(xFile.path).lengthSync() <AppConstant.sizeImage5MB){  //ensure the size of picture is less than 5 Mb
+        images.add(File(xFile.path))                ;
+      }else{
+        needImageSizeMessage = true*/
+
+
+
+  List<File> fileList=[];
+  void changeListImage(String file){
+    fileList.add(File(file));
+    emit(ChangeImageState());
+  }
+
+  void deleteImageOfferDetails(int index){
+    fileList.removeAt(index);
+    emit(ChangeImageState());
   }
 
   //get data in home
@@ -58,10 +74,8 @@ class AppCubit extends Cubit<AppState> {
      for(int i=0; i < value['items'].length; i++){
        itemList.add(ItemModel.jsonData(value['items'][i]));
      }
-     print('done');
      emit(SuccessGetItemHome(value['items'].length));
   }).onError((error, stackTrace){
-    print(error.toString());
     emit(ErrorGetItemHome());
   });
 }
@@ -85,8 +99,31 @@ class AppCubit extends Cubit<AppState> {
       }
       emit(SuccessGetCategory());
     }).onError((error, stackTrace){
-      print(error.toString());
       emit(ErrorGetCategory());
+    });
+  }
+
+  List<CategoryModel> subCategoryList=[];
+  void getSubCategories({required String subCategoryIndex})async{
+    subCategoryList=[];
+    emit(LoadingGetSubCategory());
+
+    SharedPreferences pref=await SharedPreferences.getInstance();
+    String lun=pref.getString('Lung',)??'';
+
+    await Services.get(uri: Uri.parse('${Constant.baseUrl}/api/category/get_children/$subCategoryIndex'),
+        headers: {
+          'Accept':'application/json',
+          'Content-Type':'application/json',
+          'X-localization':lun,
+        }).then((value){
+          print(value.toString());
+      for(int i=0; i < value['children'].length; i++){
+        subCategoryList.add(CategoryModel.jsonData(value['children'][i]));
+      }
+      emit(SuccessGetSubCategory());
+    }).onError((error, stackTrace){
+      emit(ErrorGetSubCategory());
     });
   }
 
@@ -109,7 +146,6 @@ class AppCubit extends Cubit<AppState> {
       }
       emit(SuccessGetCountries());
     }).onError((error, stackTrace){
-      print(error.toString());
       emit(ErrorGetCountries());
     });
   }
@@ -133,7 +169,6 @@ class AppCubit extends Cubit<AppState> {
       }
       emit(SuccessGetCities());
     }).onError((error, stackTrace){
-      print(error.toString());
       emit(ErrorGetCities());
     });
   }
@@ -157,18 +192,12 @@ class AppCubit extends Cubit<AppState> {
       'subject':subject,
       'msg':msg,
     }).then((value){
-      emit(SuccessFormSearch());
 
+      emit(SuccessFormSearch());
     }).onError((error, stackTrace){
-      print('eee');
       emit(ErrorFormSearch());
     });
   }
-
-
-
-
-
 
   ContactModel contactModel=ContactModel();
   void getContactUs()async{
@@ -182,11 +211,9 @@ class AppCubit extends Cubit<AppState> {
           'Content-Type':'application/json',
           'X-localization':lun,
         }).then((value){
-          print(value);
           contactModel=ContactModel.jsonData(value['contact']);
       emit(SuccessGetContactUs());
     }).onError((error, stackTrace){
-      print(error.toString());
       emit(ErrorGetContactUs());
     });
   }
@@ -206,7 +233,6 @@ class AppCubit extends Cubit<AppState> {
       ourVisionModel=OurVisionModel.jsonData(value['page']);
       emit(SuccessGetOurVision());
     }).onError((error, stackTrace){
-      print(error.toString());
       emit(ErrorGetOurVision());
     });
   }
@@ -218,7 +244,10 @@ class AppCubit extends Cubit<AppState> {
 
     emit(LoadingFormDontion());
     var request = http.MultipartRequest('POST', Uri.parse('https://hibadonations.com/api/donate/new'));
-    request.files.add(http.MultipartFile.fromBytes('files', File(file!.path).readAsBytesSync(),filename: file!.path));
+    for(var n in fileList){
+      request.files.add(http.MultipartFile.fromBytes('files', File(n.path).readAsBytesSync(),filename: n.path));
+
+    }
 
     request.fields['donor_name'] = name;
     request.fields['show_name'] = showName.toString();
@@ -247,7 +276,7 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  void VerifyOTP({required String uuid,required String code})async{
+  void verifyOTP({required String uuid,required String code})async{
     emit(LoadingOtp());
     SharedPreferences pref=await SharedPreferences.getInstance();
     String lun=pref.getString('Lung',)??'';

@@ -16,7 +16,7 @@ class OtpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Authentication "),
+        title: const Text("Authentication "),
         backgroundColor: Colors.green,
       ),
       body: BlocConsumer<AppCubit,AppState>(
@@ -57,10 +57,10 @@ class OtpScreen extends StatelessWidget {
                     height: AppSize.s15,
                   ),
                   (state is LoadingOtp)?
-                  Center(child: CircularProgressIndicator(),):
+                  const Center(child: CircularProgressIndicator(),):
                   InkWell(
                     onTap: () {
-                      cubit.VerifyOTP(
+                      cubit.verifyOTP(
                         code: code.text,
                         uuid: userId,
                       );

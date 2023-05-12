@@ -43,6 +43,7 @@ abstract class  LocaleKeys {
   static const String cities='cities';
   static const String countries='countries';
   static const String category='category';
+  static const String subCategory='subCategory';
   static const String submit='submit';
 
   static const String home='home';
@@ -65,6 +66,9 @@ static const String addImage='addImage';
 static const String nameImage='nameImage';
 static const String pleaseEnterYourName='pleaseEnterYourName';
 static const String availableUpTo='availableUpTo';
+static const String chooseImage='chooseImage';
+static const String camera='camera';
+static const String multiImage='multiImage';
 
   static const String youCanFill='youCanFill';
   static const String theName='theName';

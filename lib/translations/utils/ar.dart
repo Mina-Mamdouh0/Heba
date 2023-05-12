@@ -35,6 +35,7 @@ const Map<String, String> ar = {
   'cities':'مدن',
   'countries':'بلدان',
   'category':'فئه',
+  'subCategory':'القسم الفرعي',
   'submit':'تاكيد',
   'subject':'موضوع',
   'msg':'رسالة',
@@ -72,6 +73,11 @@ const Map<String, String> ar = {
   "num" : '+9715XXXXXXXXX',
   "pleaseEnterEmail" : 'Please enter your email',
   'emaill' : 'email@email.com',
+
+  //dialog
+  'chooseImage':'اختر صوره',
+  'camera':'التقط صوره',
+  'multiImage':'اضف صور',
 
 
 

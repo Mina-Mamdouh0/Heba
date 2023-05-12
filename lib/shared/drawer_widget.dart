@@ -178,11 +178,12 @@ class DrawerWidget extends StatelessWidget {
 
 Widget show({required BuildContext context,
   required Function() camera,
-  required Function() gallery,}){
+  required Function() multi,
+}){
   return AlertDialog(
-    title:const  Text(
-      'Choose Image',
-      style: TextStyle(
+    title: Text(
+      LocaleKeys.chooseImage.tr(),
+      style: const TextStyle(
           fontSize: 20,
           color: Colors.black,
           fontWeight: FontWeight.bold
@@ -196,11 +197,11 @@ Widget show({required BuildContext context,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
-              children: const [
-                Icon(Icons.photo,color: Colors.green,),
-                SizedBox(width: 10,),
-                Text('Camera',
-                  style: TextStyle(
+              children:  [
+                const Icon(Icons.photo,color: Colors.green,),
+                const SizedBox(width: 10,),
+                Text(LocaleKeys.camera.tr(),
+                  style: const TextStyle(
                       color: Colors.green,fontSize: 20
                   ),)
               ],
@@ -208,21 +209,21 @@ Widget show({required BuildContext context,
           ),
         ),
         InkWell(
-          onTap: gallery,
+          onTap: multi,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
-              children: const [
-                Icon(Icons.camera,color: Colors.green,),
-                SizedBox(width: 10,),
-                Text('Gallery',
-                  style: TextStyle(
+              children:  [
+                const Icon(Icons.camera,color: Colors.green,),
+                const SizedBox(width: 10,),
+                Text(LocaleKeys.multiImage.tr(),
+                  style: const TextStyle(
                       color: Colors.green,fontSize: 20
                   ),)
               ],
             ),
           ),
-        )
+        ),
       ],
     ),
   );

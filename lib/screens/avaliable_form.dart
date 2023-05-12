@@ -99,7 +99,7 @@ class AvailableFormScreen extends StatelessWidget {
                         if (value!.isEmpty) return LocaleKeys.pleaseEnterPhone.tr();
                       },
                       decoration: InputDecoration(
-                        hintText: '9715XXXXXXXXX+',
+                        hintText: '+ 9715XXXXXXXXX',
                         border: InputBorder.none,
                         filled: true,
                         fillColor: Constant.grayColor,
@@ -212,7 +212,7 @@ class AvailableFormScreen extends StatelessWidget {
                   ),
 
                   (state is LoadingFormSearch)?
-                  Center(child: CircularProgressIndicator(),):InkWell(
+                  const Center(child: CircularProgressIndicator(),):InkWell(
                     onTap: () {
                       cubit.uploadForm(msg: msg.text,
                           subject: subject.text,

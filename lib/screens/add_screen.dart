@@ -1,3 +1,4 @@
+
 import 'dart:core';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:haba/bloc/app_cubit.dart';
 import 'package:haba/constant.dart';
+import 'package:haba/screens/otp_screen.dart';
 import 'package:haba/shared/defult_text.dart';
 import 'package:haba/translations/locale_keys.g.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,26 +25,53 @@ class _FormPageViewState extends State<FormPageView> {
   int pageIndex = 0;
   PageController page = PageController(initialPage: 0);
 
-  String dropdownvalue = 'Item 1';
-  var items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-  ];
-  bool _isChecked = false;
+  int showName=0;
 
-  void _nextPage() {
-    if (_formKey.currentState!.validate()) {
-      page.animateToPage(++pageIndex,
-          duration: const Duration(milliseconds: 400),
-          curve: Curves.linearToEaseOut);
-    }
+  String? dropdownvalue;
+  String? valCategory;
+  String? valSubCategory;
+  String? valCountries;
+  String? valCities;
+
+
+  String? contactType;
+  int contact=0;
+  var contactTypeList = [
+    LocaleKeys.email.tr(),
+    LocaleKeys.phone.tr(),
+  ];
+
+  bool _isChecked = false;
+  final TextEditingController name=TextEditingController();
+  final TextEditingController decs=TextEditingController();
+  final TextEditingController nameDontion=TextEditingController();
+  final TextEditingController phone=TextEditingController();
+  final TextEditingController email=TextEditingController();
+  final TextEditingController address=TextEditingController();
+
+
+
+
+  void _nextPage(int index) {
+    page.animateToPage(index,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.linearToEaseOut);
+
   }
 
   @override
   Widget build(BuildContext context) {
+    var items = [
+      context.locale==const Locale('ar')?'1':'1 Day',
+      context.locale==const Locale('ar')?'3':'3 Day',
+      context.locale==const Locale('ar')?'7':'7 Day',
+      context.locale==const Locale('ar')?'10':'10 Day',
+      context.locale==const Locale('ar')?'15':'15 Day',
+      context.locale==const Locale('ar')?'30':'30 Day',
+      context.locale==const Locale('ar')?'60':'60 Day',
+      context.locale==const Locale('ar')?'90':'90 Day',
+      context.locale==const Locale('ar')?'دائما':'Always',
+    ];
     return BlocConsumer<AppCubit , AppState>(builder: (context , state){
       var cubit = AppCubit.get(context);
       return Scaffold(
@@ -83,16 +112,19 @@ class _FormPageViewState extends State<FormPageView> {
                                           Navigator.pop(context);
                                           XFile? picked=await ImagePicker().pickImage(source: ImageSource.camera,maxHeight: 1080,maxWidth: 1080);
                                           if(picked !=null){
-                                            cubit.changeImage(picked.path);
+                                            cubit.changeListImage(picked.path);
                                           }
                                         },
-                                        gallery: ()async{
+                                        multi: ()async{
                                           Navigator.pop(context);
-                                          XFile? picked=await ImagePicker().pickImage(source: ImageSource.gallery,maxHeight: 1080,maxWidth: 1080);
-                                          if(picked !=null){
-                                            cubit.changeImage(picked.path);
+                                          List<XFile>? picked=await ImagePicker().pickMultiImage(maxHeight: 1080,maxWidth: 1080);
+                                          if(picked.isNotEmpty){
+                                            for (var element in picked) {
+                                              cubit.changeListImage(element.path);
+                                            }
                                           }
-                                        });
+                                        }
+                                    );
                                   });
                             },
                             child: Container(
@@ -119,6 +151,53 @@ class _FormPageViewState extends State<FormPageView> {
                           const SizedBox(
                             height: AppSize.s15,
                           ),
+
+                          cubit.fileList.isNotEmpty?
+                          SizedBox(
+                            height: 90,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: cubit.fileList.length,
+                                itemBuilder: (context,index){
+                                  return Container(
+                                    width: 90,
+                                    height: 90,
+                                    margin: const EdgeInsets.only(left: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Constant.primaryColor)
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(8),
+                                          child: Image.file(cubit.fileList[index],fit: BoxFit.fill,height: 90,width: 90),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.topRight,
+                                          child: InkWell(
+                                            onTap: ()=>cubit.deleteImageOfferDetails(index),
+                                            child: Container(
+                                              height: 20,
+                                              width: 20,
+                                              margin: const EdgeInsets.all(5),
+                                              decoration: const BoxDecoration(
+                                                  color: Color(0XFFCD0000),
+                                                  shape: BoxShape.circle
+                                              ),
+                                              child: const Center(child: Icon(Icons.clear,size: 10,color: Colors.white,)),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                  );
+                                }),
+                          ):Container(),
+                          const SizedBox(
+                            height: AppSize.s15,
+                          ),
                           Row(
                             children: [
                               Text(
@@ -132,16 +211,18 @@ class _FormPageViewState extends State<FormPageView> {
                             ],
                           ),
                           TextFormField(
+                            controller: name,
                             validator: (value) {
-                              if (value!.isEmpty)
+                              if (value!.isEmpty){
                                 return LocaleKeys.pleaseEnterYourName.tr();
+                              }
                             },
                             decoration: InputDecoration(
                               hintText: LocaleKeys.exampleBlueShirt.tr(),
                               border: InputBorder.none,
                               filled: true,
                               fillColor: Constant.grayColor,
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 8),
                             ),
                           ),
@@ -160,26 +241,105 @@ class _FormPageViewState extends State<FormPageView> {
                               ),
                             ],
                           ),
-                          DropdownButton(
-                              value: dropdownvalue,
-                              underline: Container(),
-                              icon: null,
-                              isExpanded: true,
-                              items: items.map((String items) {
-                                return DropdownMenuItem(
-                                  value: items,
-                                  child: Text(items),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  dropdownvalue = newValue!;
-                                });
+                          DropdownButtonFormField(
+                              items:  [
+                                DropdownMenuItem(
+                                  value: 'e',
+                                  child: Text(LocaleKeys.didNotSpecify.tr()),
+                                ),
+                                ...cubit.categoryList.map((e){
+                                  return DropdownMenuItem(
+                                    value: e.id.toString(),
+                                    child: Text(context.locale==const Locale('ar')?e.arName??'':e.name??''),
+                                  );
+                                }),
+                              ],
+                              value: valCategory,
+                              onChanged: (String? val){
+                                if(val!=null){
+                                  if(valCategory=='e'){
+                                    valCategory='-1';
+                                  }else{
+                                    cubit.getSubCategories(subCategoryIndex: val.toString());
+                                    valCategory=val.toString();
+                                  }
+                                }
                               },
-                              alignment: Alignment.centerLeft),
+                              decoration:InputDecoration(
+                                label:Text(LocaleKeys.category.tr()),
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Constant.grayColor,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+
+                              )
+                          ),
                           const SizedBox(
                             height: AppSize.s15,
                           ),
+
+
+                        (state is LoadingGetSubCategory)?
+                        const Center(child: CircularProgressIndicator(),):
+                        (cubit.subCategoryList.isNotEmpty)?
+                        Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                LocaleKeys.subCategory.tr(),
+                                style: AppStyles.s18,
+                              ),
+                              const Text(
+                                "*",
+                                style: AppStyles.s14r,
+                              ),
+                            ],
+                          ),
+                          DropdownButtonFormField(
+                              items:  [
+                                DropdownMenuItem(
+                                  value: 'e',
+                                  child: Text(LocaleKeys.didNotSpecify.tr()),
+                                ),
+                                ...cubit.subCategoryList.map((e){
+                                  return DropdownMenuItem(
+                                    value: e.id.toString(),
+                                    child: Text(context.locale==const Locale('ar')?e.arName??'':e.name??''),
+                                  );
+                                }),
+                              ],
+                              value: valSubCategory,
+                              onChanged: (String? val){
+                                if(val!=null){
+                                  if(valSubCategory=='e'){
+                                    valSubCategory=null;
+                                  }else{
+                                    valSubCategory=val.toString();
+                                  }
+                                }
+                              },
+                              decoration:InputDecoration(
+                                label:Text(LocaleKeys.category.tr()),
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Constant.grayColor,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+
+                              )
+                          ),
+                          const SizedBox(
+                            height: AppSize.s15,
+                          ),
+                        ],
+                      ):Container(),
+
+
                           Row(
                             children: [
                               Text(
@@ -192,9 +352,16 @@ class _FormPageViewState extends State<FormPageView> {
                               ),
                             ],
                           ),
-                          DropdownButton(
+                          DropdownButtonFormField(
+                              decoration:InputDecoration(
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Constant.grayColor,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+
+                              ),
                               value: dropdownvalue,
-                              underline: Container(),
                               icon: null,
                               isExpanded: true,
                               items: items.map((String items) {
@@ -205,7 +372,12 @@ class _FormPageViewState extends State<FormPageView> {
                               }).toList(),
                               onChanged: (String? newValue) {
                                 setState(() {
-                                  dropdownvalue = newValue!;
+                                  if(newValue==(context.locale==const Locale('ar')?'دائما':'Always')){
+                                    dropdownvalue = '-1';
+                                  }else{
+                                    dropdownvalue = newValue!;
+                                  }
+
                                 });
                               },
                               alignment: Alignment.centerLeft),
@@ -225,7 +397,8 @@ class _FormPageViewState extends State<FormPageView> {
                             ],
                           ),
                           TextFormField(
-                            maxLength: 6,
+                            maxLines: 6,
+                            controller: decs,
                             decoration: InputDecoration(
                               hintText: 'مثال قميص ازرق مقاس xl مصنوع من خامه...',
                               border: InputBorder.none,
@@ -244,7 +417,13 @@ class _FormPageViewState extends State<FormPageView> {
                             height: AppSize.s15,
                           ),
                           InkWell(
-                            onTap: _nextPage,
+                            onTap: (){
+                              if (_formKey.currentState!.validate()) {
+                                _nextPage(++pageIndex);
+                              }
+
+
+                            },
                             child: Container(
                               width: 300.0,
                               height: 45.0,
@@ -271,7 +450,26 @@ class _FormPageViewState extends State<FormPageView> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Image.asset('assets/images/pp.png'),
+                          SizedBox(
+                            height: 200,
+                              width: double.infinity,
+                              child: Stack(
+                                children: [
+                                  Image.asset('assets/images/pp.png'),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: IconButton(
+                                      icon: Icon(Icons.arrow_back_ios),
+                                      onPressed: (){
+                                        if (_formKey.currentState!.validate()) {
+                                          _nextPage(--pageIndex);
+                                        }
+                                      },
+                                    ),
+                                  )
+
+                                ],
+                              )),
                           const SizedBox(
                             height: AppSize.s36,
                           ),
@@ -288,6 +486,7 @@ class _FormPageViewState extends State<FormPageView> {
                             ],
                           ),
                           TextFormField(
+                            controller: nameDontion,
                             validator: (value) {
                               if (value!.isEmpty)
                                 return LocaleKeys.pleaseEnterYourFirstName.tr();
@@ -306,8 +505,13 @@ class _FormPageViewState extends State<FormPageView> {
                               Checkbox(
                                 value: _isChecked,
                                 onChanged: (value) {
+                                  if(value!){
+                                    showName=0;
+                                  }else{
+                                    showName=1;
+                                  }
                                   setState(() {
-                                    _isChecked = value!;
+                                    _isChecked = value;
                                   });
                                 },
                                 activeColor: Colors.green,
@@ -330,20 +534,33 @@ class _FormPageViewState extends State<FormPageView> {
                               ),
                             ],
                           ),
-                          DropdownButton(
-                              value: dropdownvalue,
-                              underline: Container(),
+                          DropdownButtonFormField(
+                              decoration:InputDecoration(
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Constant.grayColor,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+
+                              ),
+                              hint: Text(contactTypeList[0]),
+                              value: contactType,
                               icon: null,
                               isExpanded: true,
-                              items: items.map((String items) {
+                              items: contactTypeList.map((String items) {
                                 return DropdownMenuItem(
                                   value: items,
                                   child: Text(items),
                                 );
                               }).toList(),
                               onChanged: (String? newValue) {
+                                if(newValue==LocaleKeys.phone.tr()){
+                                  contact=1;
+                                }else{
+                                  contact=0;
+                                }
                                 setState(() {
-                                  dropdownvalue = newValue!;
+                                  contactType = newValue!;
                                 });
                               },
                               alignment: Alignment.centerLeft),
@@ -356,16 +573,19 @@ class _FormPageViewState extends State<FormPageView> {
                                 LocaleKeys.phone.tr(),
                                 style: AppStyles.s18,
                               ),
-                              const Text(
+                              contact==1?const Text(
                                 "*",
                                 style: AppStyles.s14r,
-                              ),
+                              ):Container(),
                             ],
                           ),
                           TextFormField(
+                            controller: phone,
                             validator: (value) {
-                              if (value!.isEmpty)
+                              if (value!.isEmpty && contact==1){
                                 return LocaleKeys.pleaseEnterYourPhone.tr();
+                              }
+
                             },
                             decoration: InputDecoration(
                               hintText: LocaleKeys.phone.tr(),
@@ -385,16 +605,18 @@ class _FormPageViewState extends State<FormPageView> {
                                 LocaleKeys.email.tr(),
                                 style: AppStyles.s18,
                               ),
-                              const Text(
+                              contact==0?const Text(
                                 "*",
                                 style: AppStyles.s14r,
-                              ),
+                              ):Container()
                             ],
                           ),
                           TextFormField(
+                            controller: email,
                             validator: (value) {
-                              if (value!.isEmpty)
+                              if (value!.isEmpty && contact==0){
                                 return LocaleKeys.pleaseEnterYourEmail.tr();
+                              }
                             },
                             decoration: InputDecoration(
                               hintText: LocaleKeys.email.tr(),
@@ -426,23 +648,47 @@ class _FormPageViewState extends State<FormPageView> {
                                         ),
                                       ],
                                     ),
-                                    DropdownButton(
-                                        value: dropdownvalue,
-                                        underline: Container(),
-                                        icon: null,
+                                    (state is LoadingGetCountries)?
+                                    const Center(child: CircularProgressIndicator(),):
+                                    (state is LoadingGetCities)?Container():
+                                    DropdownButtonFormField(
+                                        decoration:InputDecoration(
+                                          border: InputBorder.none,
+                                          label:  Text(LocaleKeys.countries.tr()),
+                                          filled: true,
+                                          fillColor: Constant.grayColor,
+                                          contentPadding: const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 8),
+
+                                        ),
                                         isExpanded: true,
-                                        items: items.map((String items) {
-                                          return DropdownMenuItem(
-                                            value: items,
-                                            child: Text(items),
-                                          );
-                                        }).toList(),
-                                        onChanged: (String? newValue) {
-                                          setState(() {
-                                            dropdownvalue = newValue!;
-                                          });
+                                        items:  [
+                                          DropdownMenuItem(
+                                            value: 'e',
+                                            child: Text(LocaleKeys.didNotSpecify.tr()),
+                                          ),
+                                          ...cubit.countriesList.map((e){
+                                            return DropdownMenuItem(
+                                              value: e.id.toString(),
+                                              child: Text(context.locale==const Locale('ar')?e.nameAr??'':e.name??'',softWrap: true,overflow: TextOverflow.ellipsis),
+                                            );
+                                          }),
+                                        ],
+                                        value: valCountries,
+                                        onChanged: (String? val){
+                                          if(val!=null){
+                                            if(valCountries=='e'){
+                                              valCountries='-1';
+                                            }else{
+                                              valCountries=val.toString();
+                                              cubit.getCities(countryID: valCountries??'');
+                                            }
+                                          }
+
                                         },
-                                        alignment: Alignment.centerLeft),
+
+                                    ),
+                                    const SizedBox(height: 10,),
                                   ],
                                 ),
                               ),
@@ -464,23 +710,43 @@ class _FormPageViewState extends State<FormPageView> {
                                         ),
                                       ],
                                     ),
-                                    DropdownButton(
-                                        value: dropdownvalue,
-                                        underline: Container(),
-                                        icon: null,
-                                        isExpanded: true,
-                                        items: items.map((String items) {
-                                          return DropdownMenuItem(
-                                            value: items,
-                                            child: Text(items),
-                                          );
-                                        }).toList(),
-                                        onChanged: (String? newValue) {
-                                          setState(() {
-                                            dropdownvalue = newValue!;
-                                          });
+                                    (state is LoadingGetCities)?
+                                    const Center(child: CircularProgressIndicator(),):
+                                    DropdownButtonFormField(
+                                        items:  [
+                                          DropdownMenuItem(
+                                            value: 'e',
+                                            child: Text(LocaleKeys.didNotSpecify.tr()),
+                                          ),
+                                          ...cubit.citiesList.map((e){
+                                            return DropdownMenuItem(
+                                              value: e.id.toString(),
+                                              child: Text(context.locale==const Locale('ar')?e.nameAr??'':e.name??''),
+                                            );
+                                          }),
+                                        ],
+                                        value: valCities,
+                                        onChanged: (String? val){
+                                          if(val!=null){
+                                            if(valCities=='e'){
+                                              valCities='-1';
+                                            }else{
+                                              valCities=val.toString();
+                                            }
+                                          }
+
                                         },
-                                        alignment: Alignment.centerLeft),
+                                        decoration:InputDecoration(
+                                          border: InputBorder.none,
+                                          label:  Text(LocaleKeys.cities.tr()),
+                                          filled: true,
+                                          fillColor: Constant.grayColor,
+                                          contentPadding: const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 8),
+
+                                        ),
+                                    ),
+                                    const SizedBox(height: 10,),
                                   ],
                                 ),
                               ),
@@ -502,9 +768,11 @@ class _FormPageViewState extends State<FormPageView> {
                             ],
                           ),
                           TextFormField(
+                            controller: address,
                             validator: (value) {
-                              if (value!.isEmpty)
+                              if (value!.isEmpty){
                                 return LocaleKeys.pleaseEnterYourAddress.tr();
+                              }
                             },
                             decoration: InputDecoration(
                               hintText: LocaleKeys.buildingNumber.tr(),
@@ -518,9 +786,27 @@ class _FormPageViewState extends State<FormPageView> {
                           const SizedBox(
                             height: AppSize.s15,
                           ),
-                          InkWell(
+                          (state is LoadingFormDontion)?
+                          const Center(child: CircularProgressIndicator(),):InkWell(
                             onTap: () {
-                              if (_formKey.currentState!.validate()) {}
+                              if (_formKey.currentState!.validate() && (valCountries!=null ||  valSubCategory!=null) ) {
+                                if((contact==0 && email.text.isNotEmpty)||(contact==1 && phone.text.isNotEmpty)){
+                                  cubit.uploadDonation(
+                                      description: decs.text,
+                                      name: nameDontion.text,
+                                      email: email.text,
+                                      address: address.text,
+                                      cityId: int.parse(valCities!),
+                                      categoryId:int.parse(valCategory??valSubCategory!),
+                                      title: name.text,
+                                      contactType: contact,
+                                      mobile: phone.text,
+                                      showName: showName,
+                                      validFor: dropdownvalue!
+                                  );
+                                }
+
+                              }
                             },
                             child: Container(
                               width: 300.0,
@@ -543,6 +829,16 @@ class _FormPageViewState extends State<FormPageView> {
                   ),
                 ])),
       );
-    }, listener: (context , state){});
+    }, listener: (context , state){
+      if(state is SuccessFormDontion){
+        BlocProvider.of<AppCubit>(context).fileList=[];
+        if(state.msg=='Please verify your contact'){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpScreen(userId:state.userID)));
+        }else{
+          BlocProvider.of<AppCubit>(context).changeIndex(0);
+        }
+
+      }
+    });
   }
 }
