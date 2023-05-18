@@ -33,6 +33,10 @@ class LoadingFormSearch extends AppState{}
 class SuccessFormSearch  extends AppState{}
 class ErrorFormSearch  extends AppState{}
 
+class LoadingFormNotSearch extends AppState{}
+class SuccessFormNotSearch  extends AppState{}
+class ErrorFormNotSearch  extends AppState{}
+
 class LoadingGetContactUs extends AppState{}
 class SuccessGetContactUs extends AppState{}
 class ErrorGetContactUs extends AppState{}

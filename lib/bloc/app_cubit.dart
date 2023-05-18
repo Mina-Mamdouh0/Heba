@@ -199,6 +199,34 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
+  void avabileForm({required String name,required String phone,required String country,required String city,
+    required String email,required String category,required String query})async{
+
+    emit(LoadingFormNotSearch());
+    SharedPreferences pref=await SharedPreferences.getInstance();
+    String lun=pref.getString('Lung',)??'';
+    await Services.post(uri: Uri.parse('https://hibadonations.com/api/inform'),
+        headers: {
+          'Accept':'application/json',
+          'Content-Type':'application/json',
+          'X-localization':lun,
+        },
+        queryParams: {
+          'name':name,
+          'mobile':phone,
+          'email':email,
+          'query':query,
+          'category_id':category,
+          'country_id':country,
+          'city_id':city,
+        }).then((value){
+
+      emit(SuccessFormNotSearch());
+    }).onError((error, stackTrace){
+      emit(ErrorFormNotSearch());
+    });
+  }
+
   ContactModel contactModel=ContactModel();
   void getContactUs()async{
     emit(LoadingGetContactUs());

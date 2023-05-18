@@ -40,6 +40,7 @@ const Map<String, String> en = {
   'cities':'Cities',
   'countries':'Countries',
   'category':'Category',
+  'sendMassage':'Send Massage',
   'subCategory':'Sub category',
   'submit':'Submit',
 

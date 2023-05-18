@@ -37,6 +37,7 @@ const Map<String, String> ar = {
   'category':'فئه',
   'subCategory':'القسم الفرعي',
   'submit':'تاكيد',
+  'sendMassage':'ارسال',
   'subject':'موضوع',
   'msg':'رسالة',
   'contactMassage':'رسالة جهة الاتصال',

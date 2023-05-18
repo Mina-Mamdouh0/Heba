@@ -39,7 +39,7 @@ class DrawerWidget extends StatelessWidget {
                 SizedBox(
                   width: 120,
                   height: 80,
-                  child:SvgPicture.asset('assets/images/logoo.svg',fit: BoxFit.fill) ,
+                  child:Image.asset('assets/images/logo.png',fit: BoxFit.fill) ,
 
 
                 ),
@@ -120,7 +120,7 @@ class DrawerWidget extends StatelessWidget {
             ListTile(
               onTap: (){
                 BlocProvider.of<AppCubit>(context).getContactUs();
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>const ContactUsScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> ContactUsScreen()));
 
               },
               contentPadding: const EdgeInsets.all(5),
