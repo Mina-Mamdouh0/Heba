@@ -49,6 +49,16 @@ class LoadingOtp extends AppState{}
 class SuccessOtp  extends AppState{}
 class ErrorOtp  extends AppState{}
 
+class LoadingReSend extends AppState{}
+class SuccessReSend  extends AppState{}
+class ErrorReSend extends AppState{}
+
+
+
+class LoadingTallFriend extends AppState{}
+class SuccessTallFriend  extends AppState{}
+class ErrorTallFriend extends AppState{}
+
 class LoadingFormDontion extends AppState{}
 class SuccessFormDontion extends AppState{
   String msg;

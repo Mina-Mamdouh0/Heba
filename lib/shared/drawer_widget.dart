@@ -11,6 +11,7 @@ import 'package:haba/screens/contact_us_screen.dart';
 import 'package:haba/screens/drawer_screens/abour_us_screen.dart';
 import 'package:haba/screens/drawer_screens/how_it_works_screen.dart';
 import 'package:haba/screens/drawer_screens/our_vision_screen.dart';
+import 'package:haba/screens/drawer_screens/tell_friend_screen.dart';
 import 'package:haba/translations/locale_keys.g.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -134,7 +135,11 @@ class DrawerWidget extends StatelessWidget {
             const SizedBox(height: 10,),
 
             ListTile(
-              onTap: (){},
+              onTap: (){
+
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> TellFriendScreen()));
+
+              },
               contentPadding: const EdgeInsets.all(5),
               title: Text(LocaleKeys.tellFriend.tr(),style: TextStyle(
                   color: Constant.blackColor,

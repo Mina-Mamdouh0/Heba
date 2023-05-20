@@ -12,7 +12,6 @@ import 'package:haba/model/item_model.dart';
 import 'package:haba/model/our_vision_model.dart';
 import 'package:haba/model/show_donate_form_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppCubit extends Cubit<AppState> {
@@ -297,7 +296,8 @@ class AppCubit extends Cubit<AppState> {
     print(resData.toString());
 
     if(res.statusCode==200){
-      emit(SuccessFormDontion(resData['message'].toString(),
+      print(resData.toString());
+      emit(SuccessFormDontion(resData['type'].toString(),
           resData['item']['user_id'].toString()));
     }else{
       emit(ErrorFormDontion());
@@ -326,6 +326,50 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
+  void reSendOTP({required String userId,})async{
+    emit(LoadingReSend());
+    SharedPreferences pref=await SharedPreferences.getInstance();
+    String lun=pref.getString('Lung',)??'';
+    await Services.post(uri: Uri.parse('https://hibadonations.com/api/send_otp/$userId'),
+        headers: {
+          'Accept':'application/json',
+          'Content-Type':'application/json',
+          'X-localization':lun,
+        },
+    ).then((value){
+      print(value.toString());
+      emit(SuccessReSend());
+
+    }).onError((error, stackTrace){
+      print('eee');
+      emit(ErrorReSend());
+    });
+  }
+
+
+  void tellFriend({required String email,})async{
+    emit(LoadingTallFriend());
+    SharedPreferences pref=await SharedPreferences.getInstance();
+    String lun=pref.getString('Lung',)??'';
+    await Services.post(uri: Uri.parse('https://hibadonations.com/api/tell-friend/submit'),
+        headers: {
+          'Accept':'application/json',
+          'X-localization':lun,
+        },
+        body: {
+          'email':email,
+        }).then((value){
+      emit(SuccessTallFriend());
+
+    }).onError((error, stackTrace){
+      print('eee');
+      print(error.toString());
+      emit(ErrorTallFriend());
+    });
+  }
+
+
+
 
 }
 
@@ -342,12 +386,12 @@ class Services{
     }
   }
 
-  static Future<dynamic> post({required Uri uri,Map<String,dynamic>? queryParams,
+  static Future<dynamic> post({required Uri uri,Map<String,dynamic>? queryParams,Map<String,dynamic>? body,
     Map<String,String>? headers})async{
 
     http.Response response=await http.post(uri.replace(
         queryParameters: queryParams
-    ),headers:headers );
+    ),headers:headers ,body: body);
     if(response.statusCode==200){
       return jsonDecode(response.body);
     }else{

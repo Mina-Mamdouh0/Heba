@@ -60,6 +60,14 @@ class _FormPageViewState extends State<FormPageView> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if(BlocProvider.of<AppCubit>(context).countriesList.isEmpty){
+      BlocProvider.of<AppCubit>(context).getCountries();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     var items = [
       context.locale==const Locale('ar')?'1':'1 Day',
@@ -796,7 +804,7 @@ class _FormPageViewState extends State<FormPageView> {
                                       name: nameDontion.text,
                                       email: email.text,
                                       address: address.text,
-                                      cityId: int.parse(valCities!),
+                                      cityId: int.parse(valCities??'-1'),
                                       categoryId:int.parse(valCategory??valSubCategory!),
                                       title: name.text,
                                       contactType: contact,
@@ -832,7 +840,7 @@ class _FormPageViewState extends State<FormPageView> {
     }, listener: (context , state){
       if(state is SuccessFormDontion){
         BlocProvider.of<AppCubit>(context).fileList=[];
-        if(state.msg=='Please verify your contact'){
+        if(state.msg=='2'){
           Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpScreen(userId:state.userID)));
         }else{
           BlocProvider.of<AppCubit>(context).changeIndex(0);

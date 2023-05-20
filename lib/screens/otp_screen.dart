@@ -79,13 +79,41 @@ class OtpScreen extends StatelessWidget {
                           )),
                     ),
                   ),
+
+                  const SizedBox(
+                    height: AppSize.s15,
+                  ),
+
+                  (state is LoadingReSend)?
+                  const Center(child: CircularProgressIndicator(),):
+                  InkWell(
+                    onTap: () {
+                      cubit.reSendOTP(
+                        userId: userId
+                      );
+                    },
+                    child: Container(
+                      width: 300.0,
+                      height: 45.0,
+                      decoration: BoxDecoration(
+                        color: Constant.greenColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Center(
+                          child: Text(
+                            'Re Send',
+                            style: TextStyle(color: Colors.white, fontSize: 17.0),
+                          )),
+                    ),
+                  ),
+
                 ],
               ),
             ),
           );
         },
         listener: (context,state){
-          if(state is LoadingOtp){
+          if(state is SuccessOtp){
             BlocProvider.of<AppCubit>(context).changeIndex(0);
           }
         },
