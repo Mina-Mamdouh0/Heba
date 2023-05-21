@@ -11,6 +11,7 @@ import 'package:haba/screens/contact_us_screen.dart';
 import 'package:haba/screens/drawer_screens/abour_us_screen.dart';
 import 'package:haba/screens/drawer_screens/how_it_works_screen.dart';
 import 'package:haba/screens/drawer_screens/our_vision_screen.dart';
+import 'package:haba/screens/drawer_screens/tell_friend_screen.dart';
 import 'package:haba/translations/locale_keys.g.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,7 +40,7 @@ class DrawerWidget extends StatelessWidget {
                 SizedBox(
                   width: 120,
                   height: 80,
-                  child:SvgPicture.asset('assets/images/logoo.svg',fit: BoxFit.fill) ,
+                  child:Image.asset('assets/images/logo.png',fit: BoxFit.fill) ,
 
 
                 ),
@@ -54,15 +55,22 @@ class DrawerWidget extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => FormPageView()));
               },
               contentPadding: const EdgeInsets.all(5),
-              title: Text(LocaleKeys.donate.tr(),style: TextStyle(
-                  color: Constant.blackColor,
-                  fontSize: 16,fontWeight: FontWeight.w400
-              )),
-              subtitle: Text(LocaleKeys.donationIsHere.tr(),style: TextStyle(
-                  color: Constant.blackColor,
-                  fontSize: 14,fontWeight: FontWeight.w300
-              )),
-              trailing: Icon(Icons.arrow_forward_ios,color: Constant.greenColor),
+              title: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(LocaleKeys.donate.tr(),
+                    textAlign :TextAlign.justify,
+                    style: TextStyle(
+                    color: Constant.white,
+
+                    fontSize: 18,fontWeight: FontWeight.w400
+                )),
+              ),
+
+              shape: RoundedRectangleBorder( //<-- SEE HERE
+                borderRadius: BorderRadius.circular(40),
+              ),
+              tileColor:  Colors.red ,
+              trailing: Icon(Icons.arrow_forward_ios,color: Constant.white),
             ),
             const SizedBox(height: 10,),
 
@@ -113,7 +121,7 @@ class DrawerWidget extends StatelessWidget {
             ListTile(
               onTap: (){
                 BlocProvider.of<AppCubit>(context).getContactUs();
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>const ContactUsScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> ContactUsScreen()));
 
               },
               contentPadding: const EdgeInsets.all(5),
@@ -127,7 +135,11 @@ class DrawerWidget extends StatelessWidget {
             const SizedBox(height: 10,),
 
             ListTile(
-              onTap: (){},
+              onTap: (){
+
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> TellFriendScreen()));
+
+              },
               contentPadding: const EdgeInsets.all(5),
               title: Text(LocaleKeys.tellFriend.tr(),style: TextStyle(
                   color: Constant.blackColor,
@@ -171,11 +183,12 @@ class DrawerWidget extends StatelessWidget {
 
 Widget show({required BuildContext context,
   required Function() camera,
-  required Function() gallery,}){
+  required Function() multi,
+}){
   return AlertDialog(
-    title:const  Text(
-      'Choose Image',
-      style: TextStyle(
+    title: Text(
+      LocaleKeys.chooseImage.tr(),
+      style: const TextStyle(
           fontSize: 20,
           color: Colors.black,
           fontWeight: FontWeight.bold
@@ -189,11 +202,11 @@ Widget show({required BuildContext context,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
-              children: const [
-                Icon(Icons.photo,color: Colors.green,),
-                SizedBox(width: 10,),
-                Text('Camera',
-                  style: TextStyle(
+              children:  [
+                const Icon(Icons.photo,color: Colors.green,),
+                const SizedBox(width: 10,),
+                Text(LocaleKeys.camera.tr(),
+                  style: const TextStyle(
                       color: Colors.green,fontSize: 20
                   ),)
               ],
@@ -201,21 +214,21 @@ Widget show({required BuildContext context,
           ),
         ),
         InkWell(
-          onTap: gallery,
+          onTap: multi,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
-              children: const [
-                Icon(Icons.camera,color: Colors.green,),
-                SizedBox(width: 10,),
-                Text('Gallery',
-                  style: TextStyle(
+              children:  [
+                const Icon(Icons.camera,color: Colors.green,),
+                const SizedBox(width: 10,),
+                Text(LocaleKeys.multiImage.tr(),
+                  style: const TextStyle(
                       color: Colors.green,fontSize: 20
                   ),)
               ],
             ),
           ),
-        )
+        ),
       ],
     ),
   );

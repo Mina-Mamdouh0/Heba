@@ -10,13 +10,16 @@ import '../shared/defult_text.dart';
 import '../translations/locale_keys.g.dart';
 
 class AvailableFormScreen extends StatelessWidget {
-  AvailableFormScreen({Key? key}) : super(key: key);
+  final String city;
+  final String category;
+  final String cauntry;
+  final String search;
+  AvailableFormScreen({Key? key, required this.city, required this.category, required this.cauntry, required this.search}) : super(key: key);
 
   final TextEditingController name=TextEditingController();
   final TextEditingController phone=TextEditingController();
   final TextEditingController email=TextEditingController();
-  final TextEditingController subject=TextEditingController();
-  final TextEditingController msg=TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -94,12 +97,13 @@ class AvailableFormScreen extends StatelessWidget {
                     width: 330,
                     height: 45,
                     child: TextFormField(
+                      keyboardType: TextInputType.phone,
                       controller: phone,
                       validator: (value) {
                         if (value!.isEmpty) return LocaleKeys.pleaseEnterPhone.tr();
                       },
                       decoration: InputDecoration(
-                        hintText: '+9715XXXXXXXXX',
+                        hintText: '+ 9715XXXXXXXXX',
                         border: InputBorder.none,
                         filled: true,
                         fillColor: Constant.grayColor,
@@ -141,85 +145,23 @@ class AvailableFormScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(
-                    height: AppSize.s15,
-                  ),
-                  Row(
-                    children:  [
-                      Text(
-                        LocaleKeys.email.tr(),
-                        style: AppStyles.s18,
-                      ),
-                      const Text(
-                        "*",
-                        style: AppStyles.s14r,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 330,
-                    height: 45,
-                    child: TextFormField(
-                      controller: subject,
-                      validator: (value) {
-                        if (value!.isEmpty) return LocaleKeys.pleaseEnterEmail.tr();
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'subject',
-                        border: InputBorder.none,
-                        filled: true,
-                        fillColor: Constant.grayColor,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(
-                    height: AppSize.s15,
-                  ),
-                  Row(
-                    children:  [
-                      Text(
-                        'mag',
-                        style: AppStyles.s18,
-                      ),
-                      const Text(
-                        "*",
-                        style: AppStyles.s14r,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 330,
-                    height: 45,
-                    child: TextFormField(
-                      controller: msg,
-                      validator: (value) {
-                        if (value!.isEmpty) return LocaleKeys.pleaseEnterEmail.tr();
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'msg',
-                        border: InputBorder.none,
-                        filled: true,
-                        fillColor: Constant.grayColor,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      ),
-                    ),
-                  ),
 
                   const SizedBox(
                     height: AppSize.s15,
                   ),
 
-                  (state is LoadingFormSearch)?
-                  Center(child: CircularProgressIndicator(),):InkWell(
+                  (state is LoadingFormNotSearch)?
+                  const Center(child: CircularProgressIndicator(),):InkWell(
                     onTap: () {
-                      cubit.uploadForm(msg: msg.text,
-                          subject: subject.text,
+                      cubit.avabileForm(
                           email: email.text,
                           phone: phone.text,
                           name: name.text,
-                      );
+                          country: cauntry,
+                          city: city,
+                          category: category,
+                          query: search);
+
                     },
                     child: Container(
                       width: double.infinity,
@@ -241,7 +183,7 @@ class AvailableFormScreen extends StatelessWidget {
           );
         },
         listener: (context,state){
-          if(state is SuccessFormSearch){
+          if(state is SuccessFormNotSearch){
             Navigator.pop(context);
             Navigator.pop(context);
           }

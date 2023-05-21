@@ -2,8 +2,6 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,12 +31,29 @@ class AppCubit extends Cubit<AppState> {
     emit(ChangeIndexState());
   }
 
-  File? file;
-  void changeImage(String imagePath){
-    file=File(imagePath);
-    if(file!=null){
-      emit(ChangeImageState());
-    }
+ /* uploadListImage(List<File> images)async{
+    ImagePicker picker = ImagePicker()            ;
+    List<XFile>? xFileImages                      ;
+    xFileImages = await picker.pickMultiImage(imageQuality:80 )   ;
+    var needImageSizeMessage = false   ;
+    for (XFile xFile in xFileImages) {
+
+      if(File(xFile.path).lengthSync() <AppConstant.sizeImage5MB){  //ensure the size of picture is less than 5 Mb
+        images.add(File(xFile.path))                ;
+      }else{
+        needImageSizeMessage = true*/
+
+
+
+  List<File> fileList=[];
+  void changeListImage(String file){
+    fileList.add(File(file));
+    emit(ChangeImageState());
+  }
+
+  void deleteImageOfferDetails(int index){
+    fileList.removeAt(index);
+    emit(ChangeImageState());
   }
 
   //get data in home
@@ -58,10 +73,8 @@ class AppCubit extends Cubit<AppState> {
      for(int i=0; i < value['items'].length; i++){
        itemList.add(ItemModel.jsonData(value['items'][i]));
      }
-     print('done');
      emit(SuccessGetItemHome(value['items'].length));
   }).onError((error, stackTrace){
-    print(error.toString());
     emit(ErrorGetItemHome());
   });
 }
@@ -85,8 +98,31 @@ class AppCubit extends Cubit<AppState> {
       }
       emit(SuccessGetCategory());
     }).onError((error, stackTrace){
-      print(error.toString());
       emit(ErrorGetCategory());
+    });
+  }
+
+  List<CategoryModel> subCategoryList=[];
+  void getSubCategories({required String subCategoryIndex})async{
+    subCategoryList=[];
+    emit(LoadingGetSubCategory());
+
+    SharedPreferences pref=await SharedPreferences.getInstance();
+    String lun=pref.getString('Lung',)??'';
+
+    await Services.get(uri: Uri.parse('${Constant.baseUrl}/api/category/get_children/$subCategoryIndex'),
+        headers: {
+          'Accept':'application/json',
+          'Content-Type':'application/json',
+          'X-localization':lun,
+        }).then((value){
+          print(value.toString());
+      for(int i=0; i < value['children'].length; i++){
+        subCategoryList.add(CategoryModel.jsonData(value['children'][i]));
+      }
+      emit(SuccessGetSubCategory());
+    }).onError((error, stackTrace){
+      emit(ErrorGetSubCategory());
     });
   }
 
@@ -109,7 +145,6 @@ class AppCubit extends Cubit<AppState> {
       }
       emit(SuccessGetCountries());
     }).onError((error, stackTrace){
-      print(error.toString());
       emit(ErrorGetCountries());
     });
   }
@@ -133,7 +168,6 @@ class AppCubit extends Cubit<AppState> {
       }
       emit(SuccessGetCities());
     }).onError((error, stackTrace){
-      print(error.toString());
       emit(ErrorGetCities());
     });
   }
@@ -157,18 +191,40 @@ class AppCubit extends Cubit<AppState> {
       'subject':subject,
       'msg':msg,
     }).then((value){
-      emit(SuccessFormSearch());
 
+      emit(SuccessFormSearch());
     }).onError((error, stackTrace){
-      print('eee');
       emit(ErrorFormSearch());
     });
   }
 
+  void avabileForm({required String name,required String phone,required String country,required String city,
+    required String email,required String category,required String query})async{
 
+    emit(LoadingFormNotSearch());
+    SharedPreferences pref=await SharedPreferences.getInstance();
+    String lun=pref.getString('Lung',)??'';
+    await Services.post(uri: Uri.parse('https://hibadonations.com/api/inform'),
+        headers: {
+          'Accept':'application/json',
+          'Content-Type':'application/json',
+          'X-localization':lun,
+        },
+        queryParams: {
+          'name':name,
+          'mobile':phone,
+          'email':email,
+          'query':query,
+          'category_id':category,
+          'country_id':country,
+          'city_id':city,
+        }).then((value){
 
-
-
+      emit(SuccessFormNotSearch());
+    }).onError((error, stackTrace){
+      emit(ErrorFormNotSearch());
+    });
+  }
 
   ContactModel contactModel=ContactModel();
   void getContactUs()async{
@@ -182,11 +238,9 @@ class AppCubit extends Cubit<AppState> {
           'Content-Type':'application/json',
           'X-localization':lun,
         }).then((value){
-          print(value);
           contactModel=ContactModel.jsonData(value['contact']);
       emit(SuccessGetContactUs());
     }).onError((error, stackTrace){
-      print(error.toString());
       emit(ErrorGetContactUs());
     });
   }
@@ -206,7 +260,6 @@ class AppCubit extends Cubit<AppState> {
       ourVisionModel=OurVisionModel.jsonData(value['page']);
       emit(SuccessGetOurVision());
     }).onError((error, stackTrace){
-      print(error.toString());
       emit(ErrorGetOurVision());
     });
   }
@@ -218,7 +271,10 @@ class AppCubit extends Cubit<AppState> {
 
     emit(LoadingFormDontion());
     var request = http.MultipartRequest('POST', Uri.parse('https://hibadonations.com/api/donate/new'));
-    request.files.add(http.MultipartFile.fromBytes('files', File(file!.path).readAsBytesSync(),filename: file!.path));
+    for(var n in fileList){
+      request.files.add(http.MultipartFile.fromBytes('files', File(n.path).readAsBytesSync(),filename: n.path));
+
+    }
 
     request.fields['donor_name'] = name;
     request.fields['show_name'] = showName.toString();
@@ -240,14 +296,15 @@ class AppCubit extends Cubit<AppState> {
     print(resData.toString());
 
     if(res.statusCode==200){
-      emit(SuccessFormDontion(resData['message'].toString(),
+      print(resData.toString());
+      emit(SuccessFormDontion(resData['type'].toString(),
           resData['item']['user_id'].toString()));
     }else{
       emit(ErrorFormDontion());
     }
   }
 
-  void VerifyOTP({required String uuid,required String code})async{
+  void verifyOTP({required String uuid,required String code})async{
     emit(LoadingOtp());
     SharedPreferences pref=await SharedPreferences.getInstance();
     String lun=pref.getString('Lung',)??'';
@@ -269,6 +326,50 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
+  void reSendOTP({required String userId,})async{
+    emit(LoadingReSend());
+    SharedPreferences pref=await SharedPreferences.getInstance();
+    String lun=pref.getString('Lung',)??'';
+    await Services.post(uri: Uri.parse('https://hibadonations.com/api/send_otp/$userId'),
+        headers: {
+          'Accept':'application/json',
+          'Content-Type':'application/json',
+          'X-localization':lun,
+        },
+    ).then((value){
+      print(value.toString());
+      emit(SuccessReSend());
+
+    }).onError((error, stackTrace){
+      print('eee');
+      emit(ErrorReSend());
+    });
+  }
+
+
+  void tellFriend({required String email,})async{
+    emit(LoadingTallFriend());
+    SharedPreferences pref=await SharedPreferences.getInstance();
+    String lun=pref.getString('Lung',)??'';
+    await Services.post(uri: Uri.parse('https://hibadonations.com/api/tell-friend/submit'),
+        headers: {
+          'Accept':'application/json',
+          'X-localization':lun,
+        },
+        body: {
+          'email':email,
+        }).then((value){
+      emit(SuccessTallFriend());
+
+    }).onError((error, stackTrace){
+      print('eee');
+      print(error.toString());
+      emit(ErrorTallFriend());
+    });
+  }
+
+
+
 
 }
 
@@ -285,12 +386,12 @@ class Services{
     }
   }
 
-  static Future<dynamic> post({required Uri uri,Map<String,dynamic>? queryParams,
+  static Future<dynamic> post({required Uri uri,Map<String,dynamic>? queryParams,Map<String,dynamic>? body,
     Map<String,String>? headers})async{
 
     http.Response response=await http.post(uri.replace(
         queryParameters: queryParams
-    ),headers:headers );
+    ),headers:headers ,body: body);
     if(response.statusCode==200){
       return jsonDecode(response.body);
     }else{

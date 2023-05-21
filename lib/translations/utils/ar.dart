@@ -1,10 +1,10 @@
 const Map<String, String> ar = {
   //drawer one
-  'donate':'يتبرع',
+  'donate':'تبرع',
   'donationIsHere':'التبرع هنا',
-  'aboutUS':'معلومات عنا',
+  'aboutUS':'من نحن',
   'ourVision':'رؤيتنا',
-  'howItWorks':'كيف تعمل',
+  'howItWorks':'كيف يعمل',
   'contactUs':'اتصل بنا',
   'tellFriend':'أخبر صديق',
   'changeLanguage':'تغيير اللغة',
@@ -15,11 +15,15 @@ const Map<String, String> ar = {
   'aboutText4':'3- بناء حلقة تواصل ومساعدة بين أفراد المجتمع',
   'aboutText5':'4- الحفاظ على بيئة نظيفة من خلال تقليل الفاقد',
   'aboutText6':'5- بناء صفات حب العطاء ومساعدة جميع شرائح المجتمع',
-  'email':'بريد الالكتروني',
+  'email':'البريد الالكتروني',
   'call':'اتصال',
   'receiveCallDonate':'استقبال المكالمات والتبرع',
   'youReceiveCall':'سوف تتلقى مكالمة',
   'identifyLocationTime':'لتحديد المكان والوقت',
+  'uploadAPicture' : 'ارفع صورة الغرض',
+  'uploadClearPicture' : 'قم برفع صورة واضحة',
+  'forDonate' : 'للغرض الذي ستتبرع به',
+
   'fillDetails':'املأ جميع التفاصيل',
   'fillAllItemDetails':'املأ جميع تفاصيل العنصر',
   'andYourContact':'والاتصال الخاص بك',
@@ -31,7 +35,13 @@ const Map<String, String> ar = {
   'cities':'مدن',
   'countries':'بلدان',
   'category':'فئه',
+  'subCategory':'القسم الفرعي',
   'submit':'تاكيد',
+  'sendMassage':'ارسال',
+  'subject':'موضوع',
+  'msg':'رسالة',
+  'contactMassage':'رسالة جهة الاتصال',
+  'contactForm':'مرحبًا ، هذه رسالة اختبار نموذج الاتصال ، يرجى تجاهلني.',
 
   'home':'الرئيسيه',
   'donation':'هبه',
@@ -64,7 +74,11 @@ const Map<String, String> ar = {
   "num" : '+9715XXXXXXXXX',
   "pleaseEnterEmail" : 'Please enter your email',
   'emaill' : 'email@email.com',
-  'subject' : 'subject',
+
+  //dialog
+  'chooseImage':'اختر صوره',
+  'camera':'التقط صوره',
+  'multiImage':'اضف صور',
 
 
 

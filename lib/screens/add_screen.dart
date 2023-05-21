@@ -1,3 +1,4 @@
+
 import 'dart:core';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -28,22 +29,18 @@ class _FormPageViewState extends State<FormPageView> {
 
   String? dropdownvalue;
   String? valCategory;
+  String? valSubCategory;
   String? valCountries;
   String? valCities;
-  var items = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-  ];
+
 
   String? contactType;
   int contact=0;
   var contactTypeList = [
-    'هاتف',
-    'بريد الالكتروني',
+    LocaleKeys.email.tr(),
+    LocaleKeys.phone.tr(),
   ];
+
   bool _isChecked = false;
   final TextEditingController name=TextEditingController();
   final TextEditingController decs=TextEditingController();
@@ -55,16 +52,34 @@ class _FormPageViewState extends State<FormPageView> {
 
 
 
-  void _nextPage() {
-    if (_formKey.currentState!.validate()) {
-      page.animateToPage(++pageIndex,
-          duration: const Duration(milliseconds: 400),
-          curve: Curves.linearToEaseOut);
+  void _nextPage(int index) {
+    page.animateToPage(index,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.linearToEaseOut);
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if(BlocProvider.of<AppCubit>(context).countriesList.isEmpty){
+      BlocProvider.of<AppCubit>(context).getCountries();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    var items = [
+      context.locale==const Locale('ar')?'1':'1 Day',
+      context.locale==const Locale('ar')?'3':'3 Day',
+      context.locale==const Locale('ar')?'7':'7 Day',
+      context.locale==const Locale('ar')?'10':'10 Day',
+      context.locale==const Locale('ar')?'15':'15 Day',
+      context.locale==const Locale('ar')?'30':'30 Day',
+      context.locale==const Locale('ar')?'60':'60 Day',
+      context.locale==const Locale('ar')?'90':'90 Day',
+      context.locale==const Locale('ar')?'دائما':'Always',
+    ];
     return BlocConsumer<AppCubit , AppState>(builder: (context , state){
       var cubit = AppCubit.get(context);
       return Scaffold(
@@ -105,20 +120,22 @@ class _FormPageViewState extends State<FormPageView> {
                                           Navigator.pop(context);
                                           XFile? picked=await ImagePicker().pickImage(source: ImageSource.camera,maxHeight: 1080,maxWidth: 1080);
                                           if(picked !=null){
-                                            cubit.changeImage(picked.path);
+                                            cubit.changeListImage(picked.path);
                                           }
                                         },
-                                        gallery: ()async{
+                                        multi: ()async{
                                           Navigator.pop(context);
-                                          XFile? picked=await ImagePicker().pickImage(source: ImageSource.gallery,maxHeight: 1080,maxWidth: 1080);
-                                          if(picked !=null){
-                                            cubit.changeImage(picked.path);
+                                          List<XFile>? picked=await ImagePicker().pickMultiImage(maxHeight: 1080,maxWidth: 1080);
+                                          if(picked.isNotEmpty){
+                                            for (var element in picked) {
+                                              cubit.changeListImage(element.path);
+                                            }
                                           }
-                                        });
+                                        }
+                                    );
                                   });
                             },
-                            child: (cubit.file==null)?
-                            Container(
+                            child: Container(
                               width: 330,
                               height: 100,
                               color: Constant.grayColor,
@@ -137,13 +154,55 @@ class _FormPageViewState extends State<FormPageView> {
                                   ),
                                 ],
                               ),
-                            ):Container(
-                              width: 330,
-                              height: 100,
-                              color: Constant.grayColor,
-                              child: Image.file(cubit.file!,fit: BoxFit.cover,)
                             ),
                           ),
+                          const SizedBox(
+                            height: AppSize.s15,
+                          ),
+
+                          cubit.fileList.isNotEmpty?
+                          SizedBox(
+                            height: 90,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: cubit.fileList.length,
+                                itemBuilder: (context,index){
+                                  return Container(
+                                    width: 90,
+                                    height: 90,
+                                    margin: const EdgeInsets.only(left: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Constant.primaryColor)
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(8),
+                                          child: Image.file(cubit.fileList[index],fit: BoxFit.fill,height: 90,width: 90),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.topRight,
+                                          child: InkWell(
+                                            onTap: ()=>cubit.deleteImageOfferDetails(index),
+                                            child: Container(
+                                              height: 20,
+                                              width: 20,
+                                              margin: const EdgeInsets.all(5),
+                                              decoration: const BoxDecoration(
+                                                  color: Color(0XFFCD0000),
+                                                  shape: BoxShape.circle
+                                              ),
+                                              child: const Center(child: Icon(Icons.clear,size: 10,color: Colors.white,)),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                  );
+                                }),
+                          ):Container(),
                           const SizedBox(
                             height: AppSize.s15,
                           ),
@@ -199,7 +258,7 @@ class _FormPageViewState extends State<FormPageView> {
                                 ...cubit.categoryList.map((e){
                                   return DropdownMenuItem(
                                     value: e.id.toString(),
-                                    child: Text(e.name??''),
+                                    child: Text(context.locale==const Locale('ar')?e.arName??'':e.name??''),
                                   );
                                 }),
                               ],
@@ -209,24 +268,86 @@ class _FormPageViewState extends State<FormPageView> {
                                   if(valCategory=='e'){
                                     valCategory='-1';
                                   }else{
+                                    cubit.getSubCategories(subCategoryIndex: val.toString());
                                     valCategory=val.toString();
                                   }
                                 }
                               },
                               decoration:InputDecoration(
                                 label:Text(LocaleKeys.category.tr()),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: BorderSide(
-                                      color: Constant.blackColor,
-                                    )
-                                ),
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Constant.grayColor,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
 
                               )
                           ),
                           const SizedBox(
                             height: AppSize.s15,
                           ),
+
+
+                        (state is LoadingGetSubCategory)?
+                        const Center(child: CircularProgressIndicator(),):
+                        (cubit.subCategoryList.isNotEmpty)?
+                        Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                LocaleKeys.subCategory.tr(),
+                                style: AppStyles.s18,
+                              ),
+                              const Text(
+                                "*",
+                                style: AppStyles.s14r,
+                              ),
+                            ],
+                          ),
+                          DropdownButtonFormField(
+                              items:  [
+                                DropdownMenuItem(
+                                  value: 'e',
+                                  child: Text(LocaleKeys.didNotSpecify.tr()),
+                                ),
+                                ...cubit.subCategoryList.map((e){
+                                  return DropdownMenuItem(
+                                    value: e.id.toString(),
+                                    child: Text(context.locale==const Locale('ar')?e.arName??'':e.name??''),
+                                  );
+                                }),
+                              ],
+                              value: valSubCategory,
+                              onChanged: (String? val){
+                                if(val!=null){
+                                  if(valSubCategory=='e'){
+                                    valSubCategory=null;
+                                  }else{
+                                    valSubCategory=val.toString();
+                                  }
+                                }
+                              },
+                              decoration:InputDecoration(
+                                label:Text(LocaleKeys.category.tr()),
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Constant.grayColor,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+
+                              )
+                          ),
+                          const SizedBox(
+                            height: AppSize.s15,
+                          ),
+                        ],
+                      ):Container(),
+
+
                           Row(
                             children: [
                               Text(
@@ -239,9 +360,16 @@ class _FormPageViewState extends State<FormPageView> {
                               ),
                             ],
                           ),
-                          DropdownButton(
+                          DropdownButtonFormField(
+                              decoration:InputDecoration(
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Constant.grayColor,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+
+                              ),
                               value: dropdownvalue,
-                              underline: Container(),
                               icon: null,
                               isExpanded: true,
                               items: items.map((String items) {
@@ -252,7 +380,12 @@ class _FormPageViewState extends State<FormPageView> {
                               }).toList(),
                               onChanged: (String? newValue) {
                                 setState(() {
-                                  dropdownvalue = newValue!;
+                                  if(newValue==(context.locale==const Locale('ar')?'دائما':'Always')){
+                                    dropdownvalue = '-1';
+                                  }else{
+                                    dropdownvalue = newValue!;
+                                  }
+
                                 });
                               },
                               alignment: Alignment.centerLeft),
@@ -272,7 +405,7 @@ class _FormPageViewState extends State<FormPageView> {
                             ],
                           ),
                           TextFormField(
-                            maxLength: 6,
+                            maxLines: 6,
                             controller: decs,
                             decoration: InputDecoration(
                               hintText: 'مثال قميص ازرق مقاس xl مصنوع من خامه...',
@@ -293,7 +426,10 @@ class _FormPageViewState extends State<FormPageView> {
                           ),
                           InkWell(
                             onTap: (){
-                              _nextPage();
+                              if (_formKey.currentState!.validate()) {
+                                _nextPage(++pageIndex);
+                              }
+
 
                             },
                             child: Container(
@@ -322,7 +458,26 @@ class _FormPageViewState extends State<FormPageView> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Image.asset('assets/images/pp.png'),
+                          SizedBox(
+                            height: 200,
+                              width: double.infinity,
+                              child: Stack(
+                                children: [
+                                  Image.asset('assets/images/pp.png'),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: IconButton(
+                                      icon: Icon(Icons.arrow_back_ios),
+                                      onPressed: (){
+                                        if (_formKey.currentState!.validate()) {
+                                          _nextPage(--pageIndex);
+                                        }
+                                      },
+                                    ),
+                                  )
+
+                                ],
+                              )),
                           const SizedBox(
                             height: AppSize.s36,
                           ),
@@ -387,9 +542,17 @@ class _FormPageViewState extends State<FormPageView> {
                               ),
                             ],
                           ),
-                          DropdownButton(
+                          DropdownButtonFormField(
+                              decoration:InputDecoration(
+                                border: InputBorder.none,
+                                filled: true,
+                                fillColor: Constant.grayColor,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+
+                              ),
+                              hint: Text(contactTypeList[0]),
                               value: contactType,
-                              underline: Container(),
                               icon: null,
                               isExpanded: true,
                               items: contactTypeList.map((String items) {
@@ -399,10 +562,10 @@ class _FormPageViewState extends State<FormPageView> {
                                 );
                               }).toList(),
                               onChanged: (String? newValue) {
-                                if(newValue=='هاتف'){
-                                  contact=0;
-                                }else{
+                                if(newValue==LocaleKeys.phone.tr()){
                                   contact=1;
+                                }else{
+                                  contact=0;
                                 }
                                 setState(() {
                                   contactType = newValue!;
@@ -418,16 +581,16 @@ class _FormPageViewState extends State<FormPageView> {
                                 LocaleKeys.phone.tr(),
                                 style: AppStyles.s18,
                               ),
-                              const Text(
+                              contact==1?const Text(
                                 "*",
                                 style: AppStyles.s14r,
-                              ),
+                              ):Container(),
                             ],
                           ),
                           TextFormField(
                             controller: phone,
                             validator: (value) {
-                              if (value!.isEmpty){
+                              if (value!.isEmpty && contact==1){
                                 return LocaleKeys.pleaseEnterYourPhone.tr();
                               }
 
@@ -450,16 +613,16 @@ class _FormPageViewState extends State<FormPageView> {
                                 LocaleKeys.email.tr(),
                                 style: AppStyles.s18,
                               ),
-                              const Text(
+                              contact==0?const Text(
                                 "*",
                                 style: AppStyles.s14r,
-                              ),
+                              ):Container()
                             ],
                           ),
                           TextFormField(
                             controller: email,
                             validator: (value) {
-                              if (value!.isEmpty){
+                              if (value!.isEmpty && contact==0){
                                 return LocaleKeys.pleaseEnterYourEmail.tr();
                               }
                             },
@@ -497,6 +660,15 @@ class _FormPageViewState extends State<FormPageView> {
                                     const Center(child: CircularProgressIndicator(),):
                                     (state is LoadingGetCities)?Container():
                                     DropdownButtonFormField(
+                                        decoration:InputDecoration(
+                                          border: InputBorder.none,
+                                          label:  Text(LocaleKeys.countries.tr()),
+                                          filled: true,
+                                          fillColor: Constant.grayColor,
+                                          contentPadding: const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 8),
+
+                                        ),
                                         isExpanded: true,
                                         items:  [
                                           DropdownMenuItem(
@@ -506,7 +678,7 @@ class _FormPageViewState extends State<FormPageView> {
                                           ...cubit.countriesList.map((e){
                                             return DropdownMenuItem(
                                               value: e.id.toString(),
-                                              child: Text(e.name??'',softWrap: true,overflow: TextOverflow.ellipsis),
+                                              child: Text(context.locale==const Locale('ar')?e.nameAr??'':e.name??'',softWrap: true,overflow: TextOverflow.ellipsis),
                                             );
                                           }),
                                         ],
@@ -522,16 +694,7 @@ class _FormPageViewState extends State<FormPageView> {
                                           }
 
                                         },
-                                        decoration:InputDecoration(
-                                          label:  Text(LocaleKeys.countries.tr()),
-                                          enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(12),
-                                              borderSide: BorderSide(
-                                                color: Constant.blackColor,
-                                              )
-                                          ),
 
-                                        )
                                     ),
                                     const SizedBox(height: 10,),
                                   ],
@@ -566,7 +729,7 @@ class _FormPageViewState extends State<FormPageView> {
                                           ...cubit.citiesList.map((e){
                                             return DropdownMenuItem(
                                               value: e.id.toString(),
-                                              child: Text(e.name??''),
+                                              child: Text(context.locale==const Locale('ar')?e.nameAr??'':e.name??''),
                                             );
                                           }),
                                         ],
@@ -582,15 +745,14 @@ class _FormPageViewState extends State<FormPageView> {
 
                                         },
                                         decoration:InputDecoration(
+                                          border: InputBorder.none,
                                           label:  Text(LocaleKeys.cities.tr()),
-                                          enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(12),
-                                              borderSide: BorderSide(
-                                                color: Constant.blackColor,
-                                              )
-                                          ),
+                                          filled: true,
+                                          fillColor: Constant.grayColor,
+                                          contentPadding: const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 8),
 
-                                        )
+                                        ),
                                     ),
                                     const SizedBox(height: 10,),
                                   ],
@@ -633,22 +795,25 @@ class _FormPageViewState extends State<FormPageView> {
                             height: AppSize.s15,
                           ),
                           (state is LoadingFormDontion)?
-                          Center(child: CircularProgressIndicator(),):InkWell(
+                          const Center(child: CircularProgressIndicator(),):InkWell(
                             onTap: () {
-                              if (_formKey.currentState!.validate()) {
-                                cubit.uploadDonation(
-                                    description: decs.text,
-                                    name: nameDontion.text,
-                                    email: email.text,
-                                    address: address.text,
-                                    cityId: int.parse(valCities!),
-                                    categoryId:int.parse(valCategory!),
-                                    title: name.text,
-                                    contactType: contact,
-                                    mobile: phone.text,
-                                    showName: showName,
-                                    validFor: dropdownvalue!
-                                );
+                              if (_formKey.currentState!.validate() && (valCountries!=null ||  valSubCategory!=null) ) {
+                                if((contact==0 && email.text.isNotEmpty)||(contact==1 && phone.text.isNotEmpty)){
+                                  cubit.uploadDonation(
+                                      description: decs.text,
+                                      name: nameDontion.text,
+                                      email: email.text,
+                                      address: address.text,
+                                      cityId: int.parse(valCities??'-1'),
+                                      categoryId:int.parse(valCategory??valSubCategory!),
+                                      title: name.text,
+                                      contactType: contact,
+                                      mobile: phone.text,
+                                      showName: showName,
+                                      validFor: dropdownvalue!
+                                  );
+                                }
+
                               }
                             },
                             child: Container(
@@ -674,8 +839,8 @@ class _FormPageViewState extends State<FormPageView> {
       );
     }, listener: (context , state){
       if(state is SuccessFormDontion){
-        BlocProvider.of<AppCubit>(context).file=null;
-        if(state.msg=='Please verify your contact'){
+        BlocProvider.of<AppCubit>(context).fileList=[];
+        if(state.msg=='2'){
           Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpScreen(userId:state.userID)));
         }else{
           BlocProvider.of<AppCubit>(context).changeIndex(0);

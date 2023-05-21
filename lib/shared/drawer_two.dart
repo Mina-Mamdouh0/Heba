@@ -19,6 +19,7 @@ class _DrawerWidget2State extends State<DrawerWidget2> {
   String? valCategory;
   String? valCountries;
   String? valCities;
+  String? valSubCategory;
 
   final TextEditingController search=TextEditingController();
 
@@ -76,7 +77,7 @@ class _DrawerWidget2State extends State<DrawerWidget2> {
                       ...cubit.categoryList.map((e){
                         return DropdownMenuItem(
                           value: e.id.toString(),
-                          child: Text(e.name??''),
+                          child: Text(context.locale==const Locale('ar')?e.arName??'':e.name??''),
                         );
                       }),
                     ],
@@ -86,6 +87,7 @@ class _DrawerWidget2State extends State<DrawerWidget2> {
                         if(valCategory=='e'){
                           valCategory='-1';
                         }else{
+                          cubit.getSubCategories(subCategoryIndex: val.toString());
                           valCategory=val.toString();
                         }
                       }
@@ -103,6 +105,45 @@ class _DrawerWidget2State extends State<DrawerWidget2> {
                 ),
                 const SizedBox(height: 10,),
 
+                (state is LoadingGetSubCategory)?
+                const Center(child: CircularProgressIndicator(),):
+                (cubit.subCategoryList.isNotEmpty)?DropdownButtonFormField(
+                    items:  [
+                      DropdownMenuItem(
+                        value: 'e',
+                        child: Text(LocaleKeys.didNotSpecify.tr()),
+                      ),
+                      ...cubit.subCategoryList.map((e){
+                        return DropdownMenuItem(
+                          value: e.id.toString(),
+                          child: Text(context.locale==const Locale('ar')?e.arName??'':e.name??''),
+                        );
+                      }),
+                    ],
+                    value: valSubCategory,
+                    onChanged: (String? val){
+                      if(val!=null){
+                        if(valSubCategory=='e'){
+                          valSubCategory=null;
+                        }else{
+                          valSubCategory=val.toString();
+                        }
+                      }
+                    },
+                    decoration:InputDecoration(
+                      label:Text(LocaleKeys.category.tr()),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: Constant.blackColor,
+                          )
+                      ),
+
+                    )
+                ):Container(),
+
+                const SizedBox(height: 10,),
+
                 (state is LoadingGetCountries)?
                 const Center(child: CircularProgressIndicator(),):
                 (state is LoadingGetCities)?Container():
@@ -116,7 +157,7 @@ class _DrawerWidget2State extends State<DrawerWidget2> {
                       ...cubit.countriesList.map((e){
                         return DropdownMenuItem(
                           value: e.id.toString(),
-                          child: Text(e.name??'',softWrap: true,overflow: TextOverflow.ellipsis),
+                          child: Text(context.locale==const Locale('ar')?e.nameAr??'':e.name??'',softWrap: true,overflow: TextOverflow.ellipsis),
                         );
                       }),
                     ],
@@ -146,6 +187,7 @@ class _DrawerWidget2State extends State<DrawerWidget2> {
                 const SizedBox(height: 10,),
 
 
+
                 (state is LoadingGetCities)?
                 const Center(child: CircularProgressIndicator(),):
                 DropdownButtonFormField(
@@ -157,7 +199,7 @@ class _DrawerWidget2State extends State<DrawerWidget2> {
                       ...cubit.citiesList.map((e){
                         return DropdownMenuItem(
                           value: e.id.toString(),
-                          child: Text(e.name??''),
+                          child: Text(context.locale==const Locale('ar')?e.nameAr??'':e.name??''),
                         );
                       }),
                     ],
@@ -214,17 +256,16 @@ class _DrawerWidget2State extends State<DrawerWidget2> {
         },
         listener: (context, state){
           if(state is SuccessGetItemHome){
-            if(search.text.isNotEmpty){
               if(state.lendth!=0){
                 Navigator.of(context).pop();
               }else{
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AvailableFormScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AvailableFormScreen(
+                  category: valCategory??'-1',
+                  cauntry: valCountries??'-1',
+                 search: search.text,
+                  city: valCities??'-1',
+                )));
               }
-              }else{
-              Navigator.of(context).pop();
-            }
-
-
           }
 
         },

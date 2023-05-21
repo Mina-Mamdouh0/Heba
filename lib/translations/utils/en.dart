@@ -25,12 +25,23 @@ const Map<String, String> en = {
   'andYourContact':'and your contact',
   'information':'information',
 
+  'uploadAPicture' : 'Upload item image',
+  'uploadClearPicture' : 'Upload clear image of item',
+  'forDonate' : 'you want to donate',
+  'subject':'subject',
+  'msg':'Message',
+  'contactMassage':'Contact Message',
+  'contactForm':'Hi there, this is contact form test message please ignore me.',
+
+
   //drawer two
   'search':'Search',
   'didNotSpecify':'I not specify',
   'cities':'Cities',
   'countries':'Countries',
   'category':'Category',
+  'sendMassage':'Send Massage',
+  'subCategory':'Sub category',
   'submit':'Submit',
 
   'home':'Home',
@@ -64,4 +75,11 @@ const Map<String, String> en = {
   "num" : '+9715XXXXXXXXX',
   "pleaseEnterEmail" : 'Please enter your email',
   'emaill' : 'email@email.com',
+
+  //dialog
+  'chooseImage':'Choose Image',
+  'camera':'Camera',
+  'multiImage':'Add Images'
+
+
 };

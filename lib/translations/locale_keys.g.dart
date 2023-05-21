@@ -25,13 +25,27 @@ abstract class  LocaleKeys {
   static const String andYourContact='andYourContact';
   static const String information='information';
 
+  static const String uploadAPicture='uploadAPicture';
+  static const String uploadClearPicture='uploadClearPicture';
+  static const String forDonate='forDonate';
+
+  static const String subject='subject';
+  static const String msg='msg';
+  static const String contactMassage='contactMassage';
+  static const String contactForm='contactForm';
+
+
+
+
   //drawer two
   static const String search='search';
   static const String didNotSpecify='didNotSpecify';
   static const String cities='cities';
   static const String countries='countries';
   static const String category='category';
+  static const String subCategory='subCategory';
   static const String submit='submit';
+  static const String sendMassage='sendMassage';
 
   static const String home='home';
   static const String donation='donation';
@@ -53,6 +67,9 @@ static const String addImage='addImage';
 static const String nameImage='nameImage';
 static const String pleaseEnterYourName='pleaseEnterYourName';
 static const String availableUpTo='availableUpTo';
+static const String chooseImage='chooseImage';
+static const String camera='camera';
+static const String multiImage='multiImage';
 
   static const String youCanFill='youCanFill';
   static const String theName='theName';
