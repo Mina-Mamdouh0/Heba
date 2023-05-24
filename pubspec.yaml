@@ -23,6 +23,7 @@ dependencies:
   flutter_phone_direct_caller: ^2.1.1
   image_picker: ^0.8.7+4
   flutter_launcher_icons: ^0.13.1
+  fluttertoast: ^8.2.2
 
   cupertino_icons: ^1.0.2
 

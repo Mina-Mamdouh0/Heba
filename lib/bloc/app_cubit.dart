@@ -31,17 +31,6 @@ class AppCubit extends Cubit<AppState> {
     emit(ChangeIndexState());
   }
 
- /* uploadListImage(List<File> images)async{
-    ImagePicker picker = ImagePicker()            ;
-    List<XFile>? xFileImages                      ;
-    xFileImages = await picker.pickMultiImage(imageQuality:80 )   ;
-    var needImageSizeMessage = false   ;
-    for (XFile xFile in xFileImages) {
-
-      if(File(xFile.path).lengthSync() <AppConstant.sizeImage5MB){  //ensure the size of picture is less than 5 Mb
-        images.add(File(xFile.path))                ;
-      }else{
-        needImageSizeMessage = true*/
 
 
 
@@ -269,10 +258,14 @@ class AppCubit extends Cubit<AppState> {
   required int categoryId,required int cityId,required String address,
   required String title,required String description,required String validFor})async{
 
+
     emit(LoadingFormDontion());
     var request = http.MultipartRequest('POST', Uri.parse('https://hibadonations.com/api/donate/new'));
     for(var n in fileList){
-      request.files.add(http.MultipartFile.fromBytes('files', File(n.path).readAsBytesSync(),filename: n.path));
+      //request.files.add(http.MultipartFile.fromBytes('files', File(n.path).readAsBytesSync(),filename: n.path));
+      request.files.add(http.MultipartFile('files[]',
+          File(n.path).readAsBytes().asStream(), File(n.path).lengthSync(),
+          filename: n.path.split("/").last));
 
     }
 
@@ -318,7 +311,7 @@ class AppCubit extends Cubit<AppState> {
           'user_id':uuid,
           'otp':code,
         }).then((value){
-      emit(SuccessOtp());
+      emit(SuccessOtp(value['type']));
 
     }).onError((error, stackTrace){
       print('eee');
@@ -346,7 +339,6 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
-
   void tellFriend({required String email,})async{
     emit(LoadingTallFriend());
     SharedPreferences pref=await SharedPreferences.getInstance();
@@ -367,10 +359,6 @@ class AppCubit extends Cubit<AppState> {
       emit(ErrorTallFriend());
     });
   }
-
-
-
-
 }
 
 class Services{

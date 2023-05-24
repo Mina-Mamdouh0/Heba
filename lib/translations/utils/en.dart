@@ -38,6 +38,7 @@ const Map<String, String> en = {
   'search':'Search',
   'didNotSpecify':'I not specify',
   'cities':'Cities',
+  'tryAgain':'TryAgain',
   'countries':'Countries',
   'category':'Category',
   'sendMassage':'Send Massage',

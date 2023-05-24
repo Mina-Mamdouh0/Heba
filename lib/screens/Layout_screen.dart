@@ -37,16 +37,17 @@ List<Widget> listScreen=[
               appBar: AppBar(
                 backgroundColor: Constant.greenColor,
                 actions: <Widget>[
+                  cubit.currentIndex==0?
                   Builder(
                     builder: (context){
                       return IconButton(
-                        icon: Icon(Icons.filter_list_sharp),
+                        icon: const Icon(Icons.filter_list_sharp),
                         onPressed: (){
                           Scaffold.of(context).openEndDrawer();
                         },
                       );
                     },
-                  )
+                  ):Container()
                 ],
               ),
 

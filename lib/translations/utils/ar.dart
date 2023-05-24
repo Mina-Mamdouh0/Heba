@@ -32,6 +32,7 @@ const Map<String, String> ar = {
   //drawer two
   'search':'بحث',
   'didNotSpecify':'لم احدد',
+  'tryAgain':'حاول مره اخري',
   'cities':'مدن',
   'countries':'بلدان',
   'category':'فئه',

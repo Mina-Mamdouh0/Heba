@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:haba/constant.dart';
 
 
@@ -180,4 +181,16 @@ class AppIntegerNum {
   static const int i2 = 2;
   static const int i3 = 3;
   static const int i4 = 4;
+}
+
+toast(String msg){
+   Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0
+  );
 }
