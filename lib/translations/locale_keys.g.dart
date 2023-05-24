@@ -46,6 +46,7 @@ abstract class  LocaleKeys {
   static const String subCategory='subCategory';
   static const String submit='submit';
   static const String sendMassage='sendMassage';
+  static const String tryAgain='tryAgain';
 
   static const String home='home';
   static const String donation='donation';

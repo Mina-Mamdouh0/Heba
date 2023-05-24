@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:haba/bloc/app_cubit.dart';
 import 'package:haba/bloc/app_state.dart';
+import 'package:haba/screens/Layout_screen.dart';
+import 'package:haba/translations/locale_keys.g.dart';
 
 import '../constant.dart';
 import '../shared/defult_text.dart';
@@ -114,7 +117,13 @@ class OtpScreen extends StatelessWidget {
         },
         listener: (context,state){
           if(state is SuccessOtp){
-            BlocProvider.of<AppCubit>(context).changeIndex(0);
+            if(state.type=='1'){
+              BlocProvider.of<AppCubit>(context).changeIndex(0);
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LayoutScreen()));
+            }else{
+              toast(LocaleKeys.tryAgain.tr());
+            }
+
           }
         },
       )

@@ -46,7 +46,10 @@ class SuccessGetOurVision extends AppState{}
 class ErrorGetOurVision extends AppState{}
 
 class LoadingOtp extends AppState{}
-class SuccessOtp  extends AppState{}
+class SuccessOtp  extends AppState{
+  String type;
+  SuccessOtp(this.type);
+}
 class ErrorOtp  extends AppState{}
 
 class LoadingReSend extends AppState{}
