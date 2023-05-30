@@ -40,7 +40,7 @@ class DrawerWidget extends StatelessWidget {
                 SizedBox(
                   width: 120,
                   height: 80,
-                  child:Image.asset('assets/images/logo.png',fit: BoxFit.fill) ,
+                  child:Image.asset('assets/images/Logo_nn.png',fit: BoxFit.fitWidth) ,
 
 
                 ),

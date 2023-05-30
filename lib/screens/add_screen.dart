@@ -393,9 +393,9 @@ class _FormPageViewState extends State<FormPageView> {
                             height: AppSize.s15,
                           ),
                           Row(
-                            children: const [
+                            children:  [
                               Text(
-                                "وصف الغرض",
+                                LocaleKeys.itemD.tr(),
                                 style: AppStyles.s18,
                               ),
                               Text(
@@ -408,7 +408,7 @@ class _FormPageViewState extends State<FormPageView> {
                             maxLines: 6,
                             controller: decs,
                             decoration: InputDecoration(
-                              hintText: 'مثال قميص ازرق مقاس xl مصنوع من خامه...',
+                              hintText: LocaleKeys.itemDD.tr(),
                               border: InputBorder.none,
                               filled: true,
                               fillColor: Constant.grayColor,
@@ -417,7 +417,7 @@ class _FormPageViewState extends State<FormPageView> {
                             ),
                             validator: (value) {
                               if (value!.isEmpty)
-                                return 'Please enter your first name';
+                                return LocaleKeys.returnN.tr();
                               return null;
                             },
                           ),
@@ -439,10 +439,10 @@ class _FormPageViewState extends State<FormPageView> {
                                 color: Constant.greenColor,
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: const Center(
+                              child:  Center(
                                   child: Text(
-                                    'Next',
-                                    style: TextStyle(
+                                    LocaleKeys.next.tr(),
+                                    style: const TextStyle(
                                         color: Colors.white, fontSize: 17.0),
                                   )),
                             ),

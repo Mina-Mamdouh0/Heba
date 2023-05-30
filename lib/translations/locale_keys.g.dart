@@ -71,6 +71,9 @@ static const String availableUpTo='availableUpTo';
 static const String chooseImage='chooseImage';
 static const String camera='camera';
 static const String multiImage='multiImage';
+static const String itemD='itemD';
+static const String itemDD='itemDD';
+
 
   static const String youCanFill='youCanFill';
   static const String theName='theName';
@@ -80,6 +83,14 @@ static const String multiImage='multiImage';
   static const String num='num';
   static const String pleaseEnterEmail='pleaseEnterEmail';
   static const String emaill='emaill';
+  static const String authentication='authentication';
+  static const String authenticationCode='authenticationCode';
+  static const String enterSix='enterSix';
+  static const String resend='Resend';
+  static const String next='next';
+  static const String returnN ='return';
+
+
 
 
 }

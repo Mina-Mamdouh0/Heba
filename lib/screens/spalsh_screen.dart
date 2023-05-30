@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
-              child:Image.asset('${Constant.imagePath}logo.png',fit: BoxFit.fill) ,
+              child:Image.asset('${Constant.imagePath}Logo_Name.png',fit: BoxFit.fill) ,
             ),
           ),
         ),

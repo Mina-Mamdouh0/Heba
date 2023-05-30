@@ -1,7 +1,12 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+<key>NSCameraUsageDescription</key>
+<string>To take photos of the item, heba needs access to your camera.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+    <string>To choose a item photo, heba needs access to your photo library.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

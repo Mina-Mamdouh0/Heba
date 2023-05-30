@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:haba/bloc/app_cubit.dart';
 import 'package:haba/bloc/app_state.dart';
-import 'package:haba/screens/Layout_screen.dart';
-import 'package:haba/translations/locale_keys.g.dart';
 
 import '../constant.dart';
 import '../shared/defult_text.dart';
+import '../translations/locale_keys.g.dart';
+import 'Layout_screen.dart';
 
 class OtpScreen extends StatelessWidget {
   final String userId;
@@ -19,7 +19,7 @@ class OtpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Authentication "),
+        title:  Text(LocaleKeys.authentication.tr()),
         backgroundColor: Colors.green,
       ),
       body: BlocConsumer<AppCubit,AppState>(
@@ -32,9 +32,9 @@ class OtpScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Row(
-                    children: const [
+                    children:  [
                       Text(
-                        "Authentication Code",
+                        LocaleKeys.authenticationCode.tr(),
                         style: AppStyles.s18,
                       ),
                       Text(
@@ -49,7 +49,7 @@ class OtpScreen extends StatelessWidget {
                       if (value!.isEmpty) return 'Please enter your first name';
                     },
                     decoration: InputDecoration(
-                      hintText: 'Enter 6 digits',
+                      hintText: LocaleKeys.enterSix.tr(),
                       border: InputBorder.none,
                       filled: true,
                       fillColor: Constant.grayColor,
@@ -75,9 +75,9 @@ class OtpScreen extends StatelessWidget {
                         color: Constant.greenColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Center(
+                      child:  Center(
                           child: Text(
-                            'Send',
+                            LocaleKeys.submit.tr(),
                             style: TextStyle(color: Colors.white, fontSize: 17.0),
                           )),
                     ),
@@ -102,9 +102,9 @@ class OtpScreen extends StatelessWidget {
                         color: Constant.greenColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Center(
+                      child:  Center(
                           child: Text(
-                            'Re Send',
+                            LocaleKeys.resend.tr(),
                             style: TextStyle(color: Colors.white, fontSize: 17.0),
                           )),
                     ),
@@ -117,13 +117,8 @@ class OtpScreen extends StatelessWidget {
         },
         listener: (context,state){
           if(state is SuccessOtp){
-            if(state.type=='1'){
-              BlocProvider.of<AppCubit>(context).changeIndex(0);
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LayoutScreen()));
-            }else{
-              toast(LocaleKeys.tryAgain.tr());
-            }
-
+            BlocProvider.of<AppCubit>(context).changeIndex(0);
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>LayoutScreen()));
           }
         },
       )

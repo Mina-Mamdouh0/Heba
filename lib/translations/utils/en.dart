@@ -24,6 +24,9 @@ const Map<String, String> en = {
   'fillAllItemDetails':'Fill all item details',
   'andYourContact':'and your contact',
   'information':'information',
+  'itemD' : 'Item Description',
+  'itemDD' : 'E.g blue shirt, size XL, cotton.....',
+
 
   'uploadAPicture' : 'Upload item image',
   'uploadClearPicture' : 'Upload clear image of item',
@@ -33,6 +36,9 @@ const Map<String, String> en = {
   'contactMassage':'Contact Message',
   'contactForm':'Hi there, this is contact form test message please ignore me.',
 
+  'next' : 'Next',
+
+  'return' : 'Please enter valid description for item ' ,
 
   //drawer two
   'search':'Search',
@@ -80,7 +86,13 @@ const Map<String, String> en = {
   //dialog
   'chooseImage':'Choose Image',
   'camera':'Camera',
-  'multiImage':'Add Images'
+  'multiImage':'Add Images',
+  //Authentication
+  'authentication': 'Authentication',
+  'authenticationCode' : 'Authentication Code',
+  'enterSix' : 'Enter 6 digits',
+  'Resend' : 'Resend'
+
 
 
 };

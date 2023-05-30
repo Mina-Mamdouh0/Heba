@@ -23,11 +23,17 @@ const Map<String, String> ar = {
   'uploadAPicture' : 'ارفع صورة الغرض',
   'uploadClearPicture' : 'قم برفع صورة واضحة',
   'forDonate' : 'للغرض الذي ستتبرع به',
+  'itemD' : 'وصف الغرض',
+  'itemDD' : 'مثال قميص ازرق مقاس xl مصنوع من خامه...',
 
   'fillDetails':'املأ جميع التفاصيل',
   'fillAllItemDetails':'املأ جميع تفاصيل العنصر',
   'andYourContact':'والاتصال الخاص بك',
   'information':'معلومات',
+
+  'next' : 'التالي',
+  'return' : 'الرجاء إدخال وصف صحيح للعنصر',
+
 
   //drawer two
   'search':'بحث',
@@ -80,6 +86,13 @@ const Map<String, String> ar = {
   'chooseImage':'اختر صوره',
   'camera':'التقط صوره',
   'multiImage':'اضف صور',
+
+  //Authentication
+  'authentication': 'المصادقة',
+  'authenticationCode' : 'رمز الدخول',
+  'enterSix' : 'أدخل 6 أرقام',
+  'Resend' : 'إعادة إرسال',
+
 
 
 
