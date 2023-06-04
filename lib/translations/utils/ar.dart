@@ -16,7 +16,7 @@ const Map<String, String> ar = {
   'aboutText5':'4- الحفاظ على بيئة نظيفة من خلال تقليل الفاقد',
   'aboutText6':'5- بناء صفات حب العطاء ومساعدة جميع شرائح المجتمع',
   'email':'البريد الالكتروني',
-  'call':'اتصال',
+  'call':'الهاتف المتحرك',
   'receiveCallDonate':'استقبال المكالمات والتبرع',
   'youReceiveCall':'سوف تتلقى مكالمة',
   'identifyLocationTime':'لتحديد المكان والوقت',
@@ -26,6 +26,8 @@ const Map<String, String> ar = {
   'itemD' : 'وصف الغرض',
   'itemDD' : 'مثال قميص ازرق مقاس xl مصنوع من خامه...',
 
+  'contactUsMass' : 'أو يمكنك تعبئة الحقول أدناه وسيتم التواصل معك قريباً',
+
   'fillDetails':'املأ جميع التفاصيل',
   'fillAllItemDetails':'املأ جميع تفاصيل العنصر',
   'andYourContact':'والاتصال الخاص بك',
@@ -33,6 +35,12 @@ const Map<String, String> ar = {
 
   'next' : 'التالي',
   'return' : 'الرجاء إدخال وصف صحيح للعنصر',
+  'availableItems' : 'القطع المتاحة',
+  'sendReq' : 'تم ارسال طلبكم بنجاح',
+  'exit' : 'خروج' ,
+
+
+
 
 
   //drawer two
@@ -45,8 +53,12 @@ const Map<String, String> ar = {
   'subCategory':'القسم الفرعي',
   'submit':'تاكيد',
   'sendMassage':'ارسال',
-  'subject':'موضوع',
-  'msg':'رسالة',
+  'subject':'الموضوع',
+  'msg':'الرسالة',
+  'subjectMsg':'موضوع الرسالة',
+  'msgD':'يرجي كتابة رسالتك هنا.',
+
+
   'contactMassage':'رسالة جهة الاتصال',
   'contactForm':'مرحبًا ، هذه رسالة اختبار نموذج الاتصال ، يرجى تجاهلني.',
 
@@ -57,6 +69,9 @@ const Map<String, String> ar = {
   'nameDonor':'اسم المتبرع',
   'pleaseEnterYourFirstName':'يرجى ادخال الاسم الاول',
   'pleaseEnterYourPhone':'يرجى ادخال الرقم',
+  'pleaseEnterSubject':'يرجى ادخال الموضوع',
+  'pleaseEnterMsg':'يرجى ادخال الرسالة',
+
   'pleaseEnterYourEmail':'يرجى ادخال البريد الالكتروني',
   'pleaseEnterYourAddress':'يرجى ادخال البريد العنوان',
   'pleaseEnterYourName':'يرجى ادخال البريد الاسم',
@@ -77,9 +92,9 @@ const Map<String, String> ar = {
   'theName' : 'الاسم',
   'pleaseEnterName' : 'يرجى ادخال الاسم كامل',
   'fullName' : 'الاسم كامل',
-  'pleaseEnterPhone' : 'Please enter your phone number',
+  'pleaseEnterPhone' : 'يرجى إدخال رقم الهاتف الخاص بك',
   "num" : '+9715XXXXXXXXX',
-  "pleaseEnterEmail" : 'Please enter your email',
+  "pleaseEnterEmail" : 'رجاءا أدخل بريدك الإلكتروني',
   'emaill' : 'email@email.com',
 
   //dialog

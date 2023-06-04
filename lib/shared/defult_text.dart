@@ -30,6 +30,11 @@ abstract class AppStyles {
     fontSize: 18,
     fontWeight: FontWeight.w500,
   );
+  static const TextStyle s18b = TextStyle(
+    color: Constant.black,
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+  );
   static const TextStyle s17 = TextStyle(
     color: Constant.black,
     fontSize: 17,

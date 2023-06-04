@@ -89,6 +89,22 @@ static const String itemDD='itemDD';
   static const String resend='Resend';
   static const String next='next';
   static const String returnN ='return';
+  static const String availableItems ='availableItems';
+  static const String sendReq ='sendReq';
+  static const String exit ='exit';
+  static const String contactUsMass ='contactUsMass';
+  static const String subjectMsg ='subjectMsg';
+  static const String msgD ='msgD';
+  static const String pleaseEnterSubject ='pleaseEnterSubject';
+  static const String pleaseEnterMsg ='pleaseEnterMsg';
+
+
+
+
+
+
+
+
 
 
 

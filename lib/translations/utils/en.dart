@@ -26,6 +26,7 @@ const Map<String, String> en = {
   'information':'information',
   'itemD' : 'Item Description',
   'itemDD' : 'E.g blue shirt, size XL, cotton.....',
+  'exit' : 'Exit' ,
 
 
   'uploadAPicture' : 'Upload item image',
@@ -39,6 +40,8 @@ const Map<String, String> en = {
   'next' : 'Next',
 
   'return' : 'Please enter valid description for item ' ,
+  'availableItems' : 'Available Items',
+  'sendReq' : 'Your request has been sent successfully',
 
   //drawer two
   'search':'Search',
@@ -79,9 +82,16 @@ const Map<String, String> en = {
   'pleaseEnterName' : 'Please enter your first name',
   'fullName' : 'The full name',
   'pleaseEnterPhone' : 'Please enter your phone number',
+  'pleaseEnterSubject':'Please enter the subject',
+  'pleaseEnterMsg':'Please enter the massage ',
   "num" : '+9715XXXXXXXXX',
   "pleaseEnterEmail" : 'Please enter your email',
   'emaill' : 'email@email.com',
+  'contactUsMass' : 'Or you can fill the form below, and we will contact you soon',
+  'subjectMsg':'Subject of youe me',
+  'msgD':'please write your message here',
+
+
 
   //dialog
   'chooseImage':'Choose Image',
